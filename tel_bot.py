@@ -1,7 +1,7 @@
 from telegram.ext import Updater, CommandHandler, MessageHandler, filters, Application
 
-TOKEN = "6897686310:AAFMKTYJF2AyGvIG2D2RUYRAlH8F7CNW02s"
-DESTINATION = 5804269249
+TOKEN = "0000"
+DESTINATION = 00000
 
 async def start(update, context):
     
