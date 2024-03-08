@@ -18,5 +18,5 @@ You should see something like {"ok":true,"result":true,"description":"Webhook wa
 
 User guide:
 To reply do reply at the message with the id of sender. 
-To block the sender send a message "/block <replace with sender id>".
-To unblock the sender send a message "/unblock <replace with sender id>".
+To block the sender send a message "/block <sender id>".
+To unblock the sender send a message "/unblock <sender id>".
