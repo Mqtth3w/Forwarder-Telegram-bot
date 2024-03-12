@@ -17,6 +17,11 @@ https://api.telegram.org/bot<replace with bot api token>/setWebhook?url=<replace
 You should see something like {"ok":true,"result":true,"description":"Webhook was set"} then the bot works.
 
 User guide:
+-Base user
+Satrt the bot
+Send a message to the bot to send a message to DESTINATION
+-DESTINATION
+Start the bot
 To reply do reply at the message with the id of sender. 
-To block the sender send a message "/block <sender id>".
-To unblock the sender send a message "/unblock <sender id>".
+To block the sender send a message "/block <replace with sender id>".
+To unblock the sender send a message "/unblock <replace with sender id>".
