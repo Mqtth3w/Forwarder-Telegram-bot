@@ -13,7 +13,7 @@ Webhooks based more efficent than polling. It can handle 100k request free per d
 - Add two varibles DESTINATION and API_KEY. DESTINATION is the unique id of who have to be contacted. API_KEY is the bot token. Encrypt them.
 
 ### Open the following link after substitution to configure webhooks.
-- (https://api.telegram.org/bot<replace with bot api token>/setWebhook?url=<replace with our worker url>.)
+- (https://api.telegram.org/bot&lt;replace with bot api token&gt;/setWebhook?url=&lt;replace with our worker url&gt;.)
 - You should see something like {"ok":true,"result":true,"description":"Webhook was set"} then the bot works.
 
 ## User guide:
@@ -23,5 +23,5 @@ Webhooks based more efficent than polling. It can handle 100k request free per d
 ### DESTINATION
 - Start the bot
 - To reply do reply at the message with the id of sender. 
-- To block the sender send a message /block <replace with sender id>
-- To unblock the sender send a message /unblock <replace with sender id>
+- To block the sender send a message /block &lt;replace with sender id&gt;
+- To unblock the sender send a message /unblock &lt;replace with sender id&gt;
