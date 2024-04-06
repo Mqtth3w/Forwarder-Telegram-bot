@@ -7,7 +7,7 @@ Webhooks based more efficent than polling. It can handle 100k request free per d
 - Save the api token.
 
 - Create a cloudfare account and click add a website or application.
-- Go to workers & pages then create a new workerthen deploy it.
+- Go to workers & pages then create a new worker so deploy it.
 - Click quick edit so replace the code with the content of tel_bot.js then deploy it.
 - Click configure worker, go to setting, go to variables.
 - Add two varibles DESTINATION and API_KEY. DESTINATION is the unique id of who have to be contacted. API_KEY is the bot token. Encrypt them.
