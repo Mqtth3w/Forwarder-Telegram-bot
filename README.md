@@ -1,6 +1,6 @@
-## Bot to be contacted without giving your telegram account.
+# Bot to be contacted without giving your telegram account.
 
-### How to deploy the bot in JavaScript completely free (cloudfare based):
+## How to deploy the bot in JavaScript completely free (cloudfare based):
 Webhooks based more efficent than polling. It can handle 100k request free per day (cloudfare limits)
 
 - Create a new bot on telegram with @BotFather (https://telegram.me/BotFather).
