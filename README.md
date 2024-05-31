@@ -17,7 +17,6 @@ Webhooks based more efficent than polling. It can handle 100k request free per d
 - You should see something like {"ok":true,"result":true,"description":"Webhook was set"} then the bot works.
 
 ### Try it!
-https://t.me/Keccak_support_bot
 https://t.me/Mqtth3w_support_bot
 
 ## User guide:
