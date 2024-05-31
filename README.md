@@ -19,7 +19,6 @@ Webhooks based more efficent than polling. It can handle 100k request free per d
 ### Try it!
 https://t.me/Mqtth3w_support_bot
 
-# Manual
 
 ## User guide:
 ### Base user
