@@ -43,8 +43,9 @@ async function handleRequest(request) {
 			const sendMessageUrl = `https://api.telegram.org/bot${API_KEY}/sendMessage`;
 			const first_name = payload.message.from.first_name;
 			const last_name = payload.message.from.last_name;
+			const username = payload.message.from.username;
 			let user = first_name;
-			if (last_name != null){ 
+			if (last_name != null) { 
 				user = user + " " + last_name;
 			}
 			let info = chatId + "  " + user;
@@ -53,7 +54,7 @@ async function handleRequest(request) {
 				// Say hello 
 				await SendMessage(sendMessageUrl, chatId, welcome);
 				// Informate started
-				await SendMessage(sendMessageUrl, DESTINATION, info + " started the bot.");
+				await SendMessage(sendMessageUrl, DESTINATION, (username != null) ? (info + " @" + username + " started the bot.") : (info + " started the bot."));
 			}
 			else if (text === "/block" && chatId.toString() === DESTINATION) {
 				let infoBlock = payload.message.reply_to_message.text.split(" ");
@@ -85,7 +86,7 @@ async function handleRequest(request) {
 					// Forwarding the message
 					await ForwardMessage(forwardUrl, DESTINATION, chatId, payload.message.message_id);
 					// Send sender info
-					await SendMessage(sendMessageUrl, DESTINATION, info + ".");
+					await SendMessage(sendMessageUrl, DESTINATION, (username != null) ? (info + " @" + username + ".") : (info + "."));
 				}
 			}
 		}
