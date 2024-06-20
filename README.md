@@ -8,12 +8,12 @@ Webhooks based more efficent than polling. It can handle 100k request free per d
 
 - Create a cloudfare account and click add a website or application.
 - Go to workers & pages then create a new worker so deploy it.
-- Click quick edit so replace the code with the content of tel_bot.js then deploy it.
+- Click edit so replace the code with the content of [`tel_bot.js`](./tel_bot.js) then deploy it.
 - Click configure worker, go to setting, go to variables.
 - Add two varibles DESTINATION and API_KEY. DESTINATION is the unique ID of who have to be contacted. API_KEY is the bot token. Encrypt them and save.
 
 ### Open the following link after substitution to configure webhooks.
-- [https://api.telegram.org/bot&lt;replace with bot api token&gt;/setWebhook?url=&lt;replace with our worker url&gt;](URL).
+- [https://api.telegram.org/bot&lt;replace with bot api token&gt;/setWebhook?url=&lt;replace with your worker url&gt;](URL).
 - You should see something like {"ok":true,"result":true,"description":"Webhook was set"} then the bot works.
 
 ### Try it!
