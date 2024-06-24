@@ -3,7 +3,7 @@ addEventListener("fetch", event => {
 	event.respondWith(handleRequest(event.request));
 });
 
-let blocked = ["-3","-1"]
+let blocked = ["-1"]
 
 async function SendMessage(Url, cId, txt) {
 	await fetch(Url, {
