@@ -1,7 +1,7 @@
 # Bot to be contacted without giving your Telegram account
 
-## How to deploy the bot in JavaScript completely free (Cloudflare based):
-It can handle 100k requests for free per day ([Cloudflare](https://www.cloudflare.com/) limits).
+## How to deploy the bot in JavaScript completely free ([Cloudflare](https://www.cloudflare.com/) based):
+It can handle 100k requests for free per day (Cloudflare limits).
 
 - Create a new bot on telegram with [@BotFather](https://telegram.me/BotFather).
 - Save the api token.
