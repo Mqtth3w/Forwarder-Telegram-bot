@@ -1,12 +1,12 @@
 # Bot to be contacted without giving your telegram account.
 
-## How to deploy the bot in JavaScript completely free (cloudfare based):
-Webhook is more efficent than polling. It can handle 100k requests for free per day (cloudfare limits).
+## How to deploy the bot in JavaScript completely free (cloudflare based):
+It can handle 100k requests for free per day (cloudflare limits).
 
 - Create a new bot on telegram with @BotFather (https://telegram.me/BotFather).
 - Save the api token.
 
-- Create a cloudfare account and click add a website or application.
+- Create a cloudflare account and click add a website or application.
 - Go to workers & pages then create a new worker so deploy it.
 - Click edit so replace the code with the content of [`tel_bot.js`](./tel_bot.js) then deploy it.
 - Click configure worker, go to setting, go to variables.
@@ -29,4 +29,6 @@ https://t.me/Mqtth3w_support_bot
 - To block the sender send a message "/block &lt;replace with sender ID&gt;".
 - To unblock the sender send a message "/unblock &lt;replace with sender ID&gt;".
 <br>
-Why the sender ID? Because it is an unique identifier that never changes for the user (until deletion). It is like a primary key.
+## FAQ
+- Why the sender ID? Because it is an unique identifier that never changes for the user (until deletion). It is like a primary key.
+- Why to use webhook? Webhook is more efficent than polling. Cloudflare allows only this option.
