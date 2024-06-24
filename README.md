@@ -1,4 +1,4 @@
-# Bot to be contacted without giving your Telegram account.
+# Bot to be contacted without giving your Telegram account
 
 ## How to deploy the bot in JavaScript completely free (Cloudflare based):
 It can handle 100k requests for free per day ([Cloudflare](https://www.cloudflare.com/) limits).
@@ -19,7 +19,7 @@ It can handle 100k requests for free per day ([Cloudflare](https://www.cloudflar
 ### Try it!
 https://t.me/Mqtth3w_support_bot
 
-# User guide:
+# User guide
 ### Base user
 - Satrt the bot
 - Send a message to the bot to send a message to DESTINATION
