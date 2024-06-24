@@ -3,7 +3,7 @@
 ## How to deploy the bot in JavaScript completely free (Cloudflare based):
 It can handle 100k requests for free per day ([Cloudflare](https://www.cloudflare.com/) limits).
 
-- Create a new bot on telegram with [`@BotFather`](https://telegram.me/BotFather).
+- Create a new bot on telegram with [@BotFather](https://telegram.me/BotFather).
 - Save the api token.
 
 - Create a Cloudflare account and click add a website or application.
@@ -32,4 +32,4 @@ https://t.me/Mqtth3w_support_bot
 # FAQ
 - Why the sender ID? Because it is an unique identifier that never changes for the user (until deletion). It is like a primary key.
 - Why to use webhook? Webhook is more efficent than polling. Cloudflare allows only this option.
-- How can i change the "DESTINATION"? Go on your Cloudflare account, select the worker, go to variables, deleted "DESTINATION" so create it again with a the new ID (Encrypt it). If you change your Telegram account you should also transefer the bot ownership to the new account through [`@BotFather`](https://telegram.me/BotFather).
+- How can i change the "DESTINATION"? Go on your Cloudflare account, select the worker, go to variables, deleted "DESTINATION" so create it again with a the new ID (Encrypt it). If you change your Telegram account you should also transefer the bot ownership to the new account through [@BotFather](https://telegram.me/BotFather).
