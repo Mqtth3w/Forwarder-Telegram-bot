@@ -10,7 +10,7 @@ It can handle 100k requests for free per day (Cloudflare limits).
 - Go to workers & pages then create a new worker so deploy it.
 - Click edit so replace the code with the content of [`tel_bot.js`](./tel_bot.js) then deploy it.
 - Click configure worker, go to setting, go to variables.
-- Add two varibles DESTINATION and API_KEY. DESTINATION is the unique ID of who have to be contacted. API_KEY is the bot token. Encrypt them and save.
+- Add two varibles DESTINATION and API_KEY. DESTINATION is the unique Telegram ID of who have to be contacted. API_KEY is the bot token. Encrypt them and save.
 
 ### Open the following link after substitution to configure webhooks.
 - [https://api.telegram.org/bot&lt;replace with bot api token&gt;/setWebhook?url=&lt;replace with your worker url&gt;](URL).
