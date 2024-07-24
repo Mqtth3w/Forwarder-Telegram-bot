@@ -33,6 +33,8 @@ https://t.me/Mqtth3w_support_bot
 - To reply do reply at the message with the ID of sender. 
 - To block the sender send a message "/block &lt;replace with sender ID&gt;".
 - To unblock the sender send a message "/unblock &lt;replace with sender ID&gt;".
+- [TODO] To suspende the service send "/suspend [Optionally insert here a custom message]". when a user uses the bot, they will receive a message: "Sorry, the service is temporarily suspended. [+custom message]". Ex: "/suspend I'm in vacation" so the user will recive "Sorry, the service is temporarily suspended. I'm in vacation".
+- [TODO] To unsuspend the service send "/unsuspend".
 
 # FAQ
 - Why the sender ID? Because it is an unique identifier that never changes for the user (until deletion). It is like a primary key.
