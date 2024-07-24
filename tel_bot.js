@@ -49,30 +49,9 @@ async function handleRequest(request) {
 				user = user + " " + last_name;
 			}
 			let info = chatId + "  " + user;
-			if (text == "/start") {
-				let welcome = "Hello, " + user + "!";
-				// Say hello 
-				await SendMessage(sendMessageUrl, chatId, welcome);
-				// Informate started
-				await SendMessage(sendMessageUrl, DESTINATION, (username != null) ? (info + " @" + username + " started the bot.") : (info + " started the bot."));
-			}
-			else if (text === "/block" && chatId.toString() === DESTINATION) {
-				let infoBlock = payload.message.reply_to_message.text.split(" ");
-				blocked.push(infoBlock[0].toString());
-				// Informate blocked
-				await SendMessage(sendMessageUrl, DESTINATION, "User blocked.");
-			}
-			else if (text === "/unblock" && chatId.toString() === DESTINATION) {
-				let infoBlock = payload.message.reply_to_message.text.split(" ");
-				let index = blocked.indexOf(infoBlock[0].toString());
-				if (index > -1) { // only splice array when item is found
-					blocked.splice(index, 1); // 2nd parameter means remove one item only
-					// Informate unblocked
-					await SendMessage(sendMessageUrl, DESTINATION, "User unblocked.");
-				}
-			}
-			else {
-				if ('reply_to_message' in payload.message && chatId.toString() === DESTINATION) {
+			if (chatId.toString() === DESTINATION) {
+				let command = text.split(" ")[0];
+				if ('reply_to_message' in payload.message) {
 					// Send reply, get first the original sender id
 					let infoSender = payload.message.reply_to_message.text;
 					let infoArr = infoSender.split(" ");
@@ -80,16 +59,58 @@ async function handleRequest(request) {
 					// Send reply
 					await SendMessage(sendMessageUrl, senderId, text);
 				}
-				else if (blocked.indexOf(chatId.toString()) === -1) {
-					// Informate forwarding 
+				else if (command === "/start") {
+					await SendMessage(sendMessageUrl, DESTINATION, "Hello, chief!");
+				}
+				else if (command === "/block") {
+					let infoBlock = text.split(" ");
+					if (infoBlock[1] && Number(infoBlock[1]) > 0) {
+						let index = blocked.indexOf(infoBlock[1]);
+						if (index === -1) { //Not already blocked
+							blocked.push(infoBlock[1]);
+							await SendMessage(sendMessageUrl, DESTINATION, "User blocked.");
+						}
+						else {
+							await SendMessage(sendMessageUrl, DESTINATION, "User already blocked.");
+						}
+					}
+					else {
+						await SendMessage(sendMessageUrl, DESTINATION, "Invalid User ID.");
+					}
+				}
+				else if(command === "/unblock") {
+					let infoBlock = text.split(" ");
+					if (infoBlock[1] && Number(infoBlock[1]) > 0) {
+						let index = blocked.indexOf(infoBlock[1]);
+						if (index > -1) { // only splice array when item is found
+							blocked.splice(index, 1); // 2nd parameter means remove one item only
+							await SendMessage(sendMessageUrl, DESTINATION, "User unblocked.");
+						}
+						else {
+							await SendMessage(sendMessageUrl, DESTINATION, "Hey chief, the user is not blocked.");
+						}
+					}
+					else {
+						await SendMessage(sendMessageUrl, DESTINATION, "Invalid User ID.");
+					}
+				}
+				else {
+					await SendMessage(sendMessageUrl, DESTINATION, "Hey chief! Invalid command, check the User Guide at https://github.com/mqtth3w.");
+				}
+			}
+			else if (blocked.indexOf(chatId.toString()) === -1) {
+				if (text === "/start") {
+					let welcome = "Hello, " + user + "!";
+					await SendMessage(sendMessageUrl, chatId, welcome);
+					await SendMessage(sendMessageUrl, DESTINATION, (username != null) ? (info + " @" + username + " started the bot.") : (info + " started the bot."));
+				}
+				else { 
 					await SendMessage(sendMessageUrl, chatId, "Message sent.");
-					// Forwarding the message
 					await ForwardMessage(forwardUrl, DESTINATION, chatId, payload.message.message_id);
-					// Send sender info
 					await SendMessage(sendMessageUrl, DESTINATION, (username != null) ? (info + " @" + username + ".") : (info + "."));
 				}
 			}
 		}
 	}
-	return new Response("OK"); // Doesn't really matter
+	return new Response("OK");
 };
