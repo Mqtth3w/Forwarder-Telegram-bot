@@ -24,6 +24,19 @@ It can handle 100k requests for free per day (Cloudflare limits).
 ### Try it!
 https://t.me/Mqtth3w_support_bot
 
+## How to deploy the bot on your own server:
+[TODO]
+To deploy it, follow these steps:
+- Install the required packages:
+  ```bash
+  pip install python-telegram-bot
+  ```
+- Download tel_bot.py and edit it to set the TOKEN and DESTINATION variables.
+- Run the bot:
+  ```bash
+  python tel_bot.py
+  ```
+
 # User guide
 ### Base user
 - Satrt the bot.
@@ -38,5 +51,5 @@ https://t.me/Mqtth3w_support_bot
 
 # FAQ
 - Why the sender ID? Because it is an unique identifier that never changes for the user (until deletion). It is like a primary key.
-- Why to use webhook? Webhook is more efficent than polling. Cloudflare allows only this option.
+- Why to use webhook? Webhook is more efficient and scalable than polling.
 - How can I change the "DESTINATION"? Go on your Cloudflare account, select the worker, go to variables, deleted "DESTINATION" so create it again with a the new ID (Encrypt it). If you change your Telegram account you should also transefer the bot ownership to the new account through [@BotFather](https://telegram.me/BotFather).
