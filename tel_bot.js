@@ -114,7 +114,7 @@ async function handleRequest(request) {
 					await SendMessage(sendMessageUrl, DESTINATION, "Service unsuspended.");
 				}
 				else {
-					await SendMessage(sendMessageUrl, DESTINATION, "Hey chief! Invalid command, check the User Guide at https://github.com/mqtth3w/Forwarder-Telegram-bot.");
+					await SendMessage(sendMessageUrl, DESTINATION, "Hey chief! Invalid command, check the User Guide at https://github.com/Mqtth3w/Forwarder-Telegram-bot/tree/main#user-guide.");
 				}
 			}
 			else if (blocked.indexOf(chatId.toString()) === -1 && suspended) {
