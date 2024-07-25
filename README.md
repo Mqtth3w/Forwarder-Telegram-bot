@@ -24,19 +24,21 @@ It can handle 100k requests for free per day (Cloudflare limits).
 ### Try it!
 https://t.me/Mqtth3w_support_bot
 
+<!--
 ## How to deploy the bot on your own server:
-[TODO]
+[TODO] I don't have a own server to test it :(
 To deploy it, follow these steps:
+- Ensure that your server supports HTTPS and has a valid SSL/TLS certificate. Webhooks require secure connections.
 - Install the required packages:
   ```bash
-  pip install python-telegram-bot
+  pip install python-telegram-bot aiohttp
   ```
-- Download tel_bot.py and edit it to set the TOKEN and DESTINATION variables.
-- Run the bot:
+- Download tel_bot.py and edit it to set the TOKEN, DESTINATION and WEBHOOK_URL variables.
+- Run the bot on your own server:
   ```bash
   python tel_bot.py
   ```
-
+-->
 # User guide
 ### Base user
 - Satrt the bot.
