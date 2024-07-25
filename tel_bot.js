@@ -4,6 +4,9 @@ addEventListener("fetch", event => {
 });
 
 let blocked = ["-1"]
+let suspended = false;
+let susp_info = "Sorry, the service is temporarily suspended.";
+let custom_susp = "";
 
 async function SendMessage(Url, cId, txt) {
 	await fetch(Url, {
@@ -94,9 +97,28 @@ async function handleRequest(request) {
 						await SendMessage(sendMessageUrl, DESTINATION, "Invalid User ID.");
 					}
 				}
-				else {
-					await SendMessage(sendMessageUrl, DESTINATION, "Hey chief! Invalid command, check the User Guide at https://github.com/mqtth3w.");
+				else if (command === "/suspend") {
+					let firstSpaceIndex = text.indexOf(' ');
+					if (firstSpaceIndex !== -1) {
+						custom_susp = text.slice(firstSpaceIndex + 1);
+					}
+					else {
+						custom_susp = "";
+					}
+					suspended = true;
+					await SendMessage(sendMessageUrl, DESTINATION, "Service suspended.");
 				}
+				else if (command === "/unsuspend") {
+					suspended = false;
+					custom_susp = "";
+					await SendMessage(sendMessageUrl, DESTINATION, "Service unsuspended.");
+				}
+				else {
+					await SendMessage(sendMessageUrl, DESTINATION, "Hey chief! Invalid command, check the User Guide at https://github.com/mqtth3w/Forwarder-Telegram-bot.");
+				}
+			}
+			else if (blocked.indexOf(chatId.toString()) === -1 && suspended) {
+				await SendMessage(sendMessageUrl, chatId, susp_info + " " + custom_susp);
 			}
 			else if (blocked.indexOf(chatId.toString()) === -1) {
 				if (text === "/start") {
