@@ -7,6 +7,7 @@ let blocked = ["-1"]
 let suspended = false;
 let susp_info = "Sorry, the service is temporarily suspended.";
 let custom_susp = "";
+let nick = "Mqtth3w"; // Change with your nickname, check line 134
 
 async function SendMessage(Url, cId, txt) {
 	await fetch(Url, {
@@ -113,6 +114,9 @@ async function handleRequest(request) {
 					custom_susp = "";
 					await SendMessage(sendMessageUrl, DESTINATION, "Service unsuspended.");
 				}
+				else if (command === "/help") {
+					await SendMessage(sendMessageUrl, DESTINATION, "User Guide: https://github.com/Mqtth3w/Forwarder-Telegram-bot/tree/main#user-guide. FAQ: https://github.com/Mqtth3w/Forwarder-Telegram-bot/tree/main#faq");
+				}
 				else {
 					await SendMessage(sendMessageUrl, DESTINATION, "Hey chief! Invalid command, check the User Guide at https://github.com/Mqtth3w/Forwarder-Telegram-bot/tree/main#user-guide.");
 				}
@@ -125,6 +129,10 @@ async function handleRequest(request) {
 					let welcome = "Hello, " + user + "!";
 					await SendMessage(sendMessageUrl, chatId, welcome);
 					await SendMessage(sendMessageUrl, DESTINATION, (username != null) ? (info + " @" + username + " started the bot.") : (info + " started the bot."));
+				}
+				else if (text === "/help") {
+					await SendMessage(sendMessageUrl, chatId, "This bot forward all messages you send to " + nick + ". Through this bot, " + nick + " can reply you.");
+					await SendMessage(sendMessageUrl, DESTINATION, (username != null) ? (info + " @" + username + " typed /help.") : (info + " typed /help."));
 				}
 				else { 
 					await SendMessage(sendMessageUrl, chatId, "Message sent.");
