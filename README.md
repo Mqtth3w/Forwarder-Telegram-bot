@@ -13,7 +13,7 @@ It can handle 100k requests for free per day (Cloudflare limits).
 
 - Create a Cloudflare account and click add a website or application.
 - Go to workers & pages then create a new worker so deploy it.
-- Click edit so replace the code with the content of [tel_bot.js](./tel_bot.js) then deploy it.
+- Click edit so replace the code with the content of [tel_bot.js](./tel_bot.js). Change the variable "nick" int the first lines with your custom nick, then deploy it.
 - Click configure worker, go to setting, go to variables.
 - Add two varibles DESTINATION and API_KEY. DESTINATION is the unique Telegram ID of who have to be contacted. API_KEY is the bot token. Encrypt them and save.
 
@@ -43,6 +43,7 @@ To deploy it, follow these steps:
 ### Base user
 - Satrt the bot.
 - Send a message to the bot to send a message to DESTINATION.
+- Send `/help` to see what the bot do: "This bot forward all messages you send to &lt;your nick&gt;. Through this bot, &lt;your nick&gt; can reply you.".
 ### DESTINATION
 - Start the bot.
 - To reply do reply at the message with the ID of sender. 
@@ -50,6 +51,7 @@ To deploy it, follow these steps:
 - To unblock the sender send a message `/unblock <replace with sender ID>;`.
 - To suspend the service send `/suspend <optionally insert here a custom sentence>`. Means that when a user uses the bot, they will receive a message: "Sorry, the service is temporarily suspended. [+custom sentence]". So the DESTINATION will not be informed. Example: `/suspend I'm in vacation` then the user will recive "Sorry, the service is temporarily suspended. I'm in vacation". You can also use the suspend command to change the custom sentence, sending it again with a new sentence.
 - To unsuspend the service send `/unsuspend`. When you unsuspend, you clear the custom sentence.
+- The command `/help` give you a link to the User Guide and FAQ.
 
 # FAQ
 - Why the sender ID? Because it is an unique identifier that never changes for the user (until deletion). It is like a primary key.
