@@ -7,10 +7,11 @@ let blocked = ["-1"]
 let suspended = false;
 let susp_info = "Sorry, the service is temporarily suspended.";
 let custom_susp = "";
-let nick = "Mqtth3w"; // Change with your nickname, check line 134
+const nick = "Mqtth3w"; // Change with your nickname
 
-async function SendMessage(Url, cId, txt) {
-	await fetch(Url, {
+async function SendMessage(cId, txt) {
+	const url = `https://api.telegram.org/bot${API_KEY}/sendMessage`;
+	await fetch(url, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -22,8 +23,9 @@ async function SendMessage(Url, cId, txt) {
 	}); 
 };
 
-async function ForwardMessage(Url, cId, fcId, mId) {
-	await fetch(Url, {
+async function ForwardMessage(cId, fcId, mId) {
+	const url = `https://api.telegram.org/bot${API_KEY}/forwardMessage`;
+	await fetch(url, {
 		method: "POST",
 		headers: {
 		  "Content-Type": "application/json",
@@ -39,12 +41,9 @@ async function ForwardMessage(Url, cId, fcId, mId) {
 async function handleRequest(request) {
 	if (request.method === "POST") {
 		const payload = await request.json();
-		// Getting the POST request JSON payload
 		if ('message' in payload) {
 			const chatId = payload.message.chat.id;
 			const text = payload.message.text;
-			const forwardUrl = `https://api.telegram.org/bot${API_KEY}/forwardMessage`;
-			const sendMessageUrl = `https://api.telegram.org/bot${API_KEY}/sendMessage`;
 			const first_name = payload.message.from.first_name;
 			const last_name = payload.message.from.last_name;
 			const username = payload.message.from.username;
@@ -61,25 +60,24 @@ async function handleRequest(request) {
 					let infoArr = infoSender.split(" ");
 					const senderId = infoArr[0];
 					// Send reply
-					await SendMessage(sendMessageUrl, senderId, text);
+					await SendMessage(senderId, text);
 				}
 				else if (command === "/start") {
-					await SendMessage(sendMessageUrl, DESTINATION, "Hello, chief!");
+					await SendMessage(DESTINATION, "Hello, chief!");
 				}
 				else if (command === "/block") {
 					let infoBlock = text.split(" ");
 					if (infoBlock[1] && Number(infoBlock[1]) > 0) {
-						let index = blocked.indexOf(infoBlock[1]);
-						if (index === -1) { //Not already blocked
+						if (!blocked.includes(infoBlock[1])) { //Not already blocked
 							blocked.push(infoBlock[1]);
-							await SendMessage(sendMessageUrl, DESTINATION, "User blocked.");
+							await SendMessage(DESTINATION, "User blocked.");
 						}
 						else {
-							await SendMessage(sendMessageUrl, DESTINATION, "User already blocked.");
+							await SendMessage(DESTINATION, "User already blocked.");
 						}
 					}
 					else {
-						await SendMessage(sendMessageUrl, DESTINATION, "Invalid User ID.");
+						await SendMessage(DESTINATION, "Invalid User ID.");
 					}
 				}
 				else if(command === "/unblock") {
@@ -88,14 +86,14 @@ async function handleRequest(request) {
 						let index = blocked.indexOf(infoBlock[1]);
 						if (index > -1) { // only splice array when item is found
 							blocked.splice(index, 1); // 2nd parameter means remove one item only
-							await SendMessage(sendMessageUrl, DESTINATION, "User unblocked.");
+							await SendMessage(DESTINATION, "User unblocked.");
 						}
 						else {
-							await SendMessage(sendMessageUrl, DESTINATION, "Hey chief, the user is not blocked.");
+							await SendMessage(DESTINATION, "Hey chief, the user is not blocked.");
 						}
 					}
 					else {
-						await SendMessage(sendMessageUrl, DESTINATION, "Invalid User ID.");
+						await SendMessage(DESTINATION, "Invalid User ID.");
 					}
 				}
 				else if (command === "/suspend") {
@@ -107,37 +105,37 @@ async function handleRequest(request) {
 						custom_susp = "";
 					}
 					suspended = true;
-					await SendMessage(sendMessageUrl, DESTINATION, "Service suspended.");
+					await SendMessage(DESTINATION, "Service suspended.");
 				}
 				else if (command === "/unsuspend") {
 					suspended = false;
 					custom_susp = "";
-					await SendMessage(sendMessageUrl, DESTINATION, "Service unsuspended.");
+					await SendMessage(DESTINATION, "Service unsuspended.");
 				}
 				else if (command === "/help") {
-					await SendMessage(sendMessageUrl, DESTINATION, "User Guide: https://github.com/Mqtth3w/Forwarder-Telegram-bot/tree/main#user-guide. FAQ: https://github.com/Mqtth3w/Forwarder-Telegram-bot/tree/main#faq");
+					await SendMessage(DESTINATION, "User Guide: https://github.com/Mqtth3w/Forwarder-Telegram-bot/tree/main#user-guide. FAQ: https://github.com/Mqtth3w/Forwarder-Telegram-bot/tree/main#faq");
 				}
 				else {
-					await SendMessage(sendMessageUrl, DESTINATION, "Hey chief! Invalid command, check the User Guide at https://github.com/Mqtth3w/Forwarder-Telegram-bot/tree/main#user-guide.");
+					await SendMessage(DESTINATION, "Hey chief! Invalid command, check the User Guide at https://github.com/Mqtth3w/Forwarder-Telegram-bot/tree/main#user-guide.");
 				}
 			}
-			else if (blocked.indexOf(chatId.toString()) === -1 && suspended) {
-				await SendMessage(sendMessageUrl, chatId, susp_info + " " + custom_susp);
+			else if (!blocked.includes(chatId.toString()) && suspended) {
+				await SendMessage(chatId, susp_info + " " + custom_susp);
 			}
-			else if (blocked.indexOf(chatId.toString()) === -1) {
+			else if (!blocked.includes(chatId.toString())) {
 				if (text === "/start") {
 					let welcome = "Hello, " + user + "!";
-					await SendMessage(sendMessageUrl, chatId, welcome);
-					await SendMessage(sendMessageUrl, DESTINATION, (username != null) ? (info + " @" + username + " started the bot.") : (info + " started the bot."));
+					await SendMessage(chatId, welcome);
+					await SendMessage(DESTINATION, (username != null) ? (info + " @" + username + " started the bot.") : (info + " started the bot."));
 				}
 				else if (text === "/help") {
-					await SendMessage(sendMessageUrl, chatId, "This bot forward all messages you send to " + nick + ". Through this bot, " + nick + " can reply you.");
-					await SendMessage(sendMessageUrl, DESTINATION, (username != null) ? (info + " @" + username + " typed /help.") : (info + " typed /help."));
+					await SendMessage(chatId, "This bot forward all messages you send to " + nick + ". Through this bot, " + nick + " can reply you.");
+					await SendMessage(DESTINATION, (username != null) ? (info + " @" + username + " typed /help.") : (info + " typed /help."));
 				}
 				else { 
-					await SendMessage(sendMessageUrl, chatId, "Message sent.");
-					await ForwardMessage(forwardUrl, DESTINATION, chatId, payload.message.message_id);
-					await SendMessage(sendMessageUrl, DESTINATION, (username != null) ? (info + " @" + username + ".") : (info + "."));
+					await SendMessage(chatId, "Message sent.");
+					await ForwardMessage(DESTINATION, chatId, payload.message.message_id);
+					await SendMessage(DESTINATION, (username != null) ? (info + " @" + username + ".") : (info + "."));
 				}
 			}
 		}
