@@ -1,6 +1,6 @@
 # Security Policy
 
-Never share your cloudflare worker url. If someone know your worker url can impersonate you with fake requests to the worker, since your Telegram ID is not secret.
+Never share your Cloudflare worker url. If someone know your worker url can impersonate you with fake requests to the worker, since your Telegram ID is not secret.
 <!--
 ## Supported Versions
 
