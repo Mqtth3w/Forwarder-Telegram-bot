@@ -19,13 +19,13 @@ It can handle 100k requests for free per day (Cloudflare limits).
 
 ### Webhook
 <br>Open the following link after substitution to configure webhooks.
-```bash
-https://api.telegram.org/bot<replace with bot api token>/setWebhook?url=<replace with your worker url>
+```
+https://api.telegram.org/bot<replace with your bot api token>/setWebhook?url=<replace with your worker url>
 ```
 You should see something like {"ok":true,"result":true,"description":"Webhook was set"} then the bot works.
 If you filled wrong info or need to update info you can delete webhook and then you can set it again! Open the following link after substitution to delete webhooks.
-```bash
-https://api.telegram.org/bot<replace with bot api token>/deleteWebhook
+```
+https://api.telegram.org/bot<replace with your bot api token>/deleteWebhook
 ```
 
 ### Try it!
