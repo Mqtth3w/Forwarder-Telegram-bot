@@ -17,16 +17,17 @@ It can handle 100k requests for free per day (Cloudflare limits).
 - Click configure worker, go to setting, go to variables.
 - Add two varibles DESTINATION and API_KEY. DESTINATION is the unique Telegram ID of who have to be contacted. API_KEY is the bot token. Encrypt them and save.
 
-### Webhook
-<br>Open the following link after substitution to configure webhooks.
-```
-https://api.telegram.org/bot<replace with your bot api token>/setWebhook?url=<replace with your worker url>
-```
-You should see something like {"ok":true,"result":true,"description":"Webhook was set"} then the bot works.
-If you filled wrong info or need to update info you can delete webhook and then you can set it again! Open the following link after substitution to delete webhooks.
-```
-https://api.telegram.org/bot<replace with your bot api token>/deleteWebhook
-```
+- ### Webhook
+  Open the following link after substitution to configure webhook.
+  ```
+  https://api.telegram.org/bot<replace with your bot api token>/setWebhook?url=<replace with your worker url>
+  ```
+  You should see something like {"ok":true,"result":true,"description":"Webhook was set"} then the bot works.
+  <br><br>
+  If you filled wrong info or need to update info you can delete webhook and then you can set it again! Open the following link to delete webhook.
+  ```
+  https://api.telegram.org/bot<replace with your bot api token>/deleteWebhook
+  ```
 
 ### Try it!
 https://t.me/Mqtth3w_support_bot
