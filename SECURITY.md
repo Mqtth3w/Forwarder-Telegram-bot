@@ -2,6 +2,12 @@
 
 Never share your Cloudflare worker url. If someone know your worker url can impersonate you with fake requests to the worker, since your Telegram ID is not secret.
 If your worker url is not secret change it!
+
+## Certificate
+
+Optionally, you can set up a self-signed certificate to enhance the security of requests. 
+For more datails check the following links: [setWebhook](https://core.telegram.org/bots/api#setwebhook) and [self-signed](https://core.telegram.org/bots/self-signed).
+
 <!--
 ## Supported Versions
 
