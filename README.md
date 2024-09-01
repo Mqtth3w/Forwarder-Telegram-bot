@@ -15,7 +15,7 @@ It can handle 100k requests for free per day (Cloudflare limits).
 - Click configure worker, go to setting, go to variables.
 - Add the varible DESTINATION. Which is the unique Telegram ID of who have to be contacted.
 - Add the variable API_KEY. Which is the bot api token.
-- Add the variable SECRET_TOKEN. Generate is value through the script [gen_token.py](./gen_token.py). You can also type it with your hands (1-256 characters. Only characters `A-Z`, `a-z`, `0-9`, `_` and `-` are allowed). Save it for future use.
+- Add the variable SECRET_TOKEN. Generate its value through the script [gen_token.py](./gen_token.py). You can also type it with your hands (1-256 characters. Only characters `A-Z`, `a-z`, `0-9`, `_` and `-` are allowed). Save it for future use.
 - Encrypt all variables and save.
 
 - ### Webhook
