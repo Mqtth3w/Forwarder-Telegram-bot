@@ -1,16 +1,15 @@
 # Security Policy
 
-Never share your Cloudflare worker url. If someone know your worker url can impersonate you with fake requests to the worker, since your Telegram ID is not secret.
-If your worker url is not secret change it!
+## Security guidelines
+
+- Never share your bot api key.
+- Never Share your secret token.
+- Never share your Cloudflare worker url. If someone know your worker url can impersonate you with fake requests to the worker (they should also know your secret token or brute force it), since your Telegram ID is not secret. If your worker url is not secret change it!
 
 ## Certificate
 
 Optionally, you can set up a self-signed certificate to enhance the security of requests. 
 For more datails check the following links: [setWebhook](https://core.telegram.org/bots/api#setwebhook) and [self-signed](https://core.telegram.org/bots/self-signed).
-
-## Secret token
-Optionally, you can set up a secret token to be sent in a header “X-Telegram-Bot-Api-Secret-Token” in every webhook request.
-For more datails check the following link: [setWebhook](https://core.telegram.org/bots/api#setwebhook).
 
 <!--
 ## Supported Versions
@@ -27,7 +26,7 @@ currently being supported with security updates.
 -->
 ## Reporting a Vulnerability
 
-Contact me [here](https://t.me/Mqtth3w_support_bot) for any kind of issue.
+Contact me [here](https://t.me/Mqtth3w_support_bot).
 
 <!--
 Use this section to tell people how to report a vulnerability.
