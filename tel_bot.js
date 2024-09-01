@@ -8,10 +8,10 @@ let suspended = false;
 let susp_info = "Sorry, the service is temporarily suspended.";
 let custom_susp = "";
 const nick = "Mqtth3w"; // Change with your nickname
+let url = `https://api.telegram.org/bot${API_KEY}/`;
 
 async function SendMessage(cId, txt) {
-	const url = `https://api.telegram.org/bot${API_KEY}/sendMessage`;
-	await fetch(url, {
+	await fetch(url + 'sendMessage', {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -24,8 +24,7 @@ async function SendMessage(cId, txt) {
 };
 
 async function ForwardMessage(cId, fcId, mId) {
-	const url = `https://api.telegram.org/bot${API_KEY}/forwardMessage`;
-	await fetch(url, {
+	await fetch(url + 'forwardMessage', {
 		method: "POST",
 		headers: {
 		  "Content-Type": "application/json",
