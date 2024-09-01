@@ -8,16 +8,14 @@ Inspired by https://t.me/killmilk_support_bot.
 ## How to deploy the bot in JavaScript completely free ([Cloudflare](https://www.cloudflare.com/) based):
 It can handle 100k requests for free per day (Cloudflare limits).
 
-- Create a new bot on telegram with [@BotFather](https://telegram.me/BotFather).
-- Save the api token.
-
+- Create a new bot on telegram with [@BotFather](https://telegram.me/BotFather). Save the api token for future use.
 - Create a Cloudflare account and click add a website or application.
 - Go to workers & pages then create a new worker so deploy it.
 - Click edit so replace the code with the content of [tel_bot.js](./tel_bot.js). Change the variable "nick" in the first lines with your custom nick, then deploy it.
 - Click configure worker, go to setting, go to variables.
 - Add the varible DESTINATION. Which is the unique Telegram ID of who have to be contacted.
-- Add the variable API_KEY. Which is the bot token.
-- Add the variable SECRET_TOKEN. Generate is value through the script [gen_token.py](./gen_token.py). You can also type it with your hands (1-256 characters. Only characters `A-Z`, `a-z`, `0-9`, `_` and `-` are allowed).
+- Add the variable API_KEY. Which is the bot api token.
+- Add the variable SECRET_TOKEN. Generate is value through the script [gen_token.py](./gen_token.py). You can also type it with your hands (1-256 characters. Only characters `A-Z`, `a-z`, `0-9`, `_` and `-` are allowed). Save it for future use.
 - Encrypt all variables and save.
 
 - ### Webhook
