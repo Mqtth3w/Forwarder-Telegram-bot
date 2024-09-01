@@ -24,7 +24,7 @@ It can handle 100k requests for free per day (Cloudflare limits).
   ```
   You should see something like {"ok":true,"result":true,"description":"Webhook was set"} then the bot works.
   <br><br>
-  If you filled wrong info or need to update info you can delete webhook and then you can set it again! Open the following link to delete webhook.
+  If you filled wrong info or need to update info you can delete webhook and then you can set it again! Open the following link after substitution to delete webhook.
   ```
   https://api.telegram.org/bot<replace with your bot api token>/deleteWebhook
   ```
@@ -59,7 +59,7 @@ To deploy it, follow these steps:
 - To unblock the sender send a message `/unblock <replace with sender ID>;`.
 - To suspend the service send `/suspend <optionally insert here a custom sentence>`. Means that when a user uses the bot, they will receive a message: "Sorry, the service is temporarily suspended. [+custom sentence]". So the DESTINATION will not be informed. Example: `/suspend I'm in vacation` then the user will recive "Sorry, the service is temporarily suspended. I'm in vacation". You can also use the suspend command to change the custom sentence, sending it again with a new sentence.
 - To unsuspend the service send `/unsuspend`. When you unsuspend, you clear the custom sentence.
-- The command `/help` give you a link to the User Guide and FAQ.
+- The command `/help` give you a link to the User guide and FAQ.
 
 # FAQ
 - Why the sender ID? Because it is an unique identifier that never changes for the user (until deletion). It is like a primary key.
