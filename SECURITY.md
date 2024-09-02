@@ -26,7 +26,7 @@ currently being supported with security updates.
 -->
 ## Reporting a Vulnerability
 
-Contact me [here](https://t.me/Mqtth3w_support_bot).
+Contact me [here](https://t.me/Mqtth3w_support_bot) or use the [Discussions](https://github.com/Mqtth3w/Forwarder-Telegram-bot/discussions) section.
 
 <!--
 Use this section to tell people how to report a vulnerability.
