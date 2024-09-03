@@ -24,7 +24,7 @@ It can handle 100k requests for free per day (Cloudflare limits).
   ```
   You should see something like {"ok":true,"result":true,"description":"Webhook was set"} then the bot works.
   <br><br>
-  If you filled wrong info or need to update info you can delete webhook and then you can set it again! Open the following link after substitution to delete webhook.
+  If you filled wrong info or need to update info you can delete webhook and then you can set it again. Open the following link after substitution to delete webhook.
   ```
   https://api.telegram.org/bot<replace with your bot api token>/deleteWebhook
   ```
