@@ -116,10 +116,14 @@ async function handleRequest(request) {
 					await SendMessage(DESTINATION, "Service unsuspended.");
 				}
 				else if (command === "/help") {
-					await SendMessage(DESTINATION, "User Guide: https://github.com/Mqtth3w/Forwarder-Telegram-bot/tree/main#user-guide. FAQ: https://github.com/Mqtth3w/Forwarder-Telegram-bot/tree/main#faq");
+					await SendMessage(DESTINATION, "User guide: https://github.com/Mqtth3w/Forwarder-Telegram-bot/tree/main#user-guide. FAQ: https://github.com/Mqtth3w/Forwarder-Telegram-bot/tree/main#faq");
+				}
+				else if (command === "/blocked") {
+					let blocked_str = 'blocked = ["' + blocked.join('", "') + '"]';
+					await SendMessage(DESTINATION, blocked_str);
 				}
 				else {
-					await SendMessage(DESTINATION, "Hey chief! Invalid command, check the User Guide at https://github.com/Mqtth3w/Forwarder-Telegram-bot/tree/main#user-guide.");
+					await SendMessage(DESTINATION, "Hey chief! Invalid command, check the User guide at https://github.com/Mqtth3w/Forwarder-Telegram-bot/tree/main#user-guide.");
 				}
 			}
 			else if (!blocked.includes(chatId.toString()) && suspended) {
