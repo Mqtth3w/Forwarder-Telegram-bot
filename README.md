@@ -1,5 +1,4 @@
 # Bot to be contacted without giving your Telegram account
-
 This bot allow you to be contacted without giving your Telegram account. In particular, Anyone who contacts you via this bot only has the information indicated in the bot or associated with it. Instead, you will know "everything" about who contacts you: name, ID, username, profile link...
 
 Inspired by https://t.me/killmilk_support_bot.
@@ -55,14 +54,19 @@ To deploy it, follow these steps:
 - Send `/help` to see what the bot do: "This bot forward all messages you send to &lt;your nick&gt;. Through this bot, &lt;your nick&gt; can reply you.".
 ### DESTINATION
 - Start the bot.
-- To reply do reply at the message with the ID of sender. 
+- To reply do reply at the message with the ID of the sender. 
 - To block the sender send a message `/block <replace with sender ID>`. <!-- &lt;replace with senderID&gt; -->
 - To unblock the sender send a message `/unblock <replace with sender ID>;`.
 - To suspend the service send `/suspend <optionally insert here a custom sentence>`. Means that when a user uses the bot, they will receive a message: "Sorry, the service is temporarily suspended. [+custom sentence]". So the DESTINATION will not be informed. Example: `/suspend I'm in vacation` then the user will recive "Sorry, the service is temporarily suspended. I'm in vacation". You can also use the suspend command to change the custom sentence, sending it again with a new sentence.
 - To unsuspend the service send `/unsuspend`. When you unsuspend, you clear the custom sentence.
 - The command `/help` give you a link to the User guide and FAQ.
+- The command `/blocked` give you the list of users you blocked (their ID). This may be useful because if you update your bot's code, the blocked list will reset and start from scratch. 
 
 # FAQ
 - Why the sender ID? Because it is an unique identifier that never changes for the user (until deletion). It is like a primary key.
 - Why to use webhook? Webhook is more efficient and scalable than polling.
 - How can I change the "DESTINATION"? Go on your Cloudflare account, select the worker, go to variables, delete the variable "DESTINATION" so create it again with the new ID (Encrypt it). If you change your Telegram account, you should also transefer the bot ownership to the new account through [@BotFather](https://telegram.me/BotFather).
+
+# Discussion
+For any comment you can use the [Discussions](https://github.com/Mqtth3w/Forwarder-Telegram-bot/discussions) section.
+
