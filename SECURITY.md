@@ -6,13 +6,13 @@
 > - Never share your bot api key.
 > - Never Share your secret token.
 > - Never share your Cloudflare worker url. If someone know your worker url can impersonate you with fake requests to the worker (they should also know your secret token or brute force it), because your Telegram ID is not secret. If your worker url is not secret change it!
-
+---
 > [!TIP]
 > ## Certificate
 > 
 > Optionally, you can set up a self-signed certificate to enhance the security of requests. 
 > For more datails check the following links: [setWebhook](https://core.telegram.org/bots/api#setwebhook) and [self-signed](https://core.telegram.org/bots/self-signed).
-
+---
 <!--
 ## Supported Versions
 
