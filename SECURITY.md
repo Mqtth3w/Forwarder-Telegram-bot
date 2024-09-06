@@ -1,15 +1,17 @@
 # Security Policy
 
-## Security guidelines
+> [!IMPORTANT]
+> ## Security guidelines
+> 
+> - Never share your bot api key.
+> - Never Share your secret token.
+> - Never share your Cloudflare worker url. If someone know your worker url can impersonate you with fake requests to the worker (they should also know your secret token or brute force it), because your Telegram ID is not secret. If your worker url is not secret change it!
 
-- Never share your bot api key.
-- Never Share your secret token.
-- Never share your Cloudflare worker url. If someone know your worker url can impersonate you with fake requests to the worker (they should also know your secret token or brute force it), because your Telegram ID is not secret. If your worker url is not secret change it!
-
-## Certificate
-
-Optionally, you can set up a self-signed certificate to enhance the security of requests. 
-For more datails check the following links: [setWebhook](https://core.telegram.org/bots/api#setwebhook) and [self-signed](https://core.telegram.org/bots/self-signed).
+> [!TIP]
+> ## Certificate
+> 
+> Optionally, you can set up a self-signed certificate to enhance the security of requests. 
+> For more datails check the following links: [setWebhook](https://core.telegram.org/bots/api#setwebhook) and [self-signed](https://core.telegram.org/bots/self-signed).
 
 <!--
 ## Supported Versions
@@ -24,9 +26,11 @@ currently being supported with security updates.
 | 4.0.x   | :white_check_mark: |
 | < 4.0   | :x:                |
 -->
-## Reporting a Vulnerability
 
-Contact me [here](https://t.me/Mqtth3w_support_bot) or use the [Discussions](https://github.com/Mqtth3w/Forwarder-Telegram-bot/discussions) section.
+> [!NOTE]
+> ## Reporting a Vulnerability
+> 
+> Contact me [here](https://t.me/Mqtth3w_support_bot) or use the [Discussions](https://github.com/Mqtth3w/Forwarder-Telegram-bot/discussions) section.
 
 <!--
 Use this section to tell people how to report a vulnerability.
