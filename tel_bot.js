@@ -22,7 +22,7 @@ async function SendMessage(cId, txt, prf) {
 			inline_keyboard: [[
 				{
 					text: "User Profile",
-					url: `tg://user?id=${cId}`,
+					url: `tg://user?id=${prf}`,
 				}
 			]]
 		};
@@ -146,16 +146,16 @@ async function handleRequest(request) {
 			else if (!blocked.includes(chatId.toString())) {
 				if (text === "/start") {
 					await SendMessage(chatId, `Hello, ${user}!`);
-					await SendMessage(DESTINATION, (username != null) ? `${info} @${username} started the bot.`	: `${info} started the bot.`, true);
+					await SendMessage(DESTINATION, (username != null) ? `${info} @${username} started the bot.`	: `${info} started the bot.`, chatId);
 				}
 				else if (text === "/help") {
 					await SendMessage(chatId, `This bot forward all messages you send to ${nick}. Through this bot, ${nick} can reply you.`);
-					await SendMessage(DESTINATION, (username != null) ? `${info} @${username} typed /help.` : `${info} typed /help.`, true);
+					await SendMessage(DESTINATION, (username != null) ? `${info} @${username} typed /help.` : `${info} typed /help.`, chatId);
 				}
 				else {
 					await SendMessage(chatId, "Message sent.");
 					await ForwardMessage(DESTINATION, chatId, payload.message.message_id);
-					await SendMessage(DESTINATION, (username != null) ? `${info} @${username}.` : `${info}.`, true);
+					await SendMessage(DESTINATION, (username != null) ? `${info} @${username}.` : `${info}.`, chatId);
 				}
 			}
 		}
