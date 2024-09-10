@@ -70,3 +70,8 @@ To deploy it, follow these steps:
 # Discussion
 For any comment you can use the [Discussions](https://github.com/Mqtth3w/Forwarder-Telegram-bot/discussions) section.
 
+# Donate
+Donate to support my projects. 
+- [Buy me a pizza](https://buymeacoffee.com/mqtth3w).
+- [Sponsor](https://github.com/sponsors/Mqtth3w).
+
