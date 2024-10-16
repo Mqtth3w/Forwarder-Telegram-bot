@@ -33,7 +33,7 @@ It can handle 100k requests for free per day (Cloudflare limits).
 https://t.me/Mqtth3w_support_bot
 
 <!--
-## How to deploy the bot on your own server:
+## How to deploy the bot on your own server (best option, to stay 100% secure and anonym you cannot trust cloudflare):
 [TODO] I don't have a own server to test it :(
 To deploy it, follow these steps:
 - Ensure that your server supports HTTPS and has a valid SSL/TLS certificate. Webhooks require secure connections.
@@ -55,12 +55,12 @@ To deploy it, follow these steps:
 ### DESTINATION
 - Start the bot.
 - To reply do reply at the message with the ID of the sender. 
-- To block the sender send a message `/block <replace with sender ID>`. <!-- &lt;replace with senderID&gt; -->
-- To unblock the sender send a message `/unblock <replace with sender ID>;`.
-- To suspend the service send `/suspend <optionally insert here a custom sentence>`. Means that when a user uses the bot, they will receive a message: "Sorry, the service is temporarily suspended. [+custom sentence]". So the DESTINATION will not be informed. Example: `/suspend I'm in vacation` then the user will recive "Sorry, the service is temporarily suspended. I'm in vacation". You can also use the suspend command to change the custom sentence, sending it again with a new sentence.
-- To unsuspend the service send `/unsuspend`. When you unsuspend, you clear the custom sentence.
-- The command `/help` give you a link to the User guide and FAQ.
-- The command `/blocked` give you the list of users you blocked (their ID). This may be useful because if you update your bot's code, the blocked list will reset and start from scratch. 
+- `/block <replace with sender ID>` block the sender. <!-- &lt;replace with senderID&gt; -->
+- `/unblock <replace with sender ID>` unblock the sender.
+- `/suspend <optionally insert here a custom sentence>` suspend the service. Means that when a user uses the bot, they will receive a message: "Sorry, the service is temporarily suspended. [+custom sentence]". So the DESTINATION will not be informed. Example: `/suspend I'm in vacation` then the user will recive "Sorry, the service is temporarily suspended. I'm in vacation". You can also use the suspend command to change the custom sentence, sending it again with a new sentence.
+- `/unsuspend` unsuspend the service. When you unsuspend, you clear the custom sentence.
+- `/help` gives you a link to this User guide and FAQ.
+- `/blocked` gives you the list of users you blocked (their ID). This may be useful because if you update your bot's code, the blocked list will reset and start from scratch. 
 
 # FAQ
 - Why the sender ID? Because it is an unique identifier that never changes for the user (until deletion). It is like a primary key.
@@ -68,10 +68,11 @@ To deploy it, follow these steps:
 - How can I change the "DESTINATION"? Go on your Cloudflare account, select the worker, go to variables, delete the variable "DESTINATION" so create it again with the new ID (Encrypt it). If you change your Telegram account, you should also transefer the bot ownership to the new account through [@BotFather](https://telegram.me/BotFather).
 
 # Discussion
-For any comment you can use the [Discussions](https://github.com/Mqtth3w/Forwarder-Telegram-bot/discussions) section.
+For any comment or to request a new feature you can either use the [Discussions](https://github.com/Mqtth3w/Forwarder-Telegram-bot/discussions) section or contact me through the [bot](https://t.me/Mqtth3w_support_bot).
 
 # Donate
 Donate to support my projects. 
-- [Buy me a pizza](https://buymeacoffee.com/mqtth3w).
+- Crypto: contact me for the address.
 - [Sponsor](https://github.com/sponsors/Mqtth3w).
+- [Buy me a pizza](https://buymeacoffee.com/mqtth3w).
 
