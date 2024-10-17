@@ -7,6 +7,7 @@ let blocked = ["-1"]
 let suspended = false;
 let susp_info = "Sorry, the service is temporarily suspended.";
 let custom_susp = "";
+let pinned_usr = ""; 
 const nick = "Mqtth3w"; // Change with your nickname
 let url = `https://api.telegram.org/bot${API_KEY}/`;
 const user_guide = "https://github.com/Mqtth3w/Forwarder-Telegram-bot/tree/main#user-guide";
@@ -53,9 +54,9 @@ async function ForwardMessage(cId, fcId, mId) {
 
 async function handleRequest(request) {
 	const secret_token = request.headers.get("X-Telegram-Bot-Api-Secret-Token");
-    	if (secret_token !== SECRET_TOKEN) {
+    if (secret_token !== SECRET_TOKEN) {
 		return new Response("Authentication Failed.", { status: 403 });
-    	}
+    }
 	if (request.method === "POST") {
 		const payload = await request.json();
 		if ('message' in payload) {
@@ -78,6 +79,8 @@ async function handleRequest(request) {
 					const senderId = infoArr[0];
 					// Send reply
 					await SendMessage(senderId, text);
+					// Informate you
+					await SendMessage(DESTINATION, "Reply sent to " + senderId, senderId);
 				}
 				else if (command === "/start") {
 					await SendMessage(DESTINATION, "Hello, chief!");
@@ -87,7 +90,7 @@ async function handleRequest(request) {
 					if (infoBlock[1] && Number(infoBlock[1]) > 0) {
 						if (!blocked.includes(infoBlock[1])) { //Not already blocked
 							blocked.push(infoBlock[1]);
-							await SendMessage(DESTINATION, "User blocked.");
+							await SendMessage(DESTINATION, `User ${infoBlock[1]} blocked.`, infoBlock[1]);
 						}
 						else {
 							await SendMessage(DESTINATION, "User already blocked.");
@@ -103,7 +106,7 @@ async function handleRequest(request) {
 						let index = blocked.indexOf(infoBlock[1]);
 						if (index > -1) { // only splice array when item is found
 							blocked.splice(index, 1); // 2nd parameter means remove one item only
-							await SendMessage(DESTINATION, "User unblocked.");
+							await SendMessage(DESTINATION, `User ${infoBlock[1]} unblocked.`, infoBlock[1]);
 						}
 						else {
 							await SendMessage(DESTINATION, "Hey chief, the user is not blocked.");
@@ -136,9 +139,32 @@ async function handleRequest(request) {
 					let blocked_str = 'blocked = ["' + blocked.join('", "') + '"]';
 					await SendMessage(DESTINATION, blocked_str);
 				}
-				else {
-					await SendMessage(DESTINATION, `Hey chief! Invalid command, check the User guide at ${user_guide}.`);
+				else if (command === "/pin") {
+					let infoBlock = text.split(" ");
+					if (infoBlock[1] && Number(infoBlock[1]) > 0) {
+						pinned_usr = infoBlock[1];
+						await SendMessage(DESTINATION, `User ${pinned_usr} pinned.`, pinned_usr);
+					}
+					else {
+						await SendMessage(DESTINATION, "Invalid User ID.");
+					}
 				}
+				else if (command === "/unpin") {
+					await SendMessage(DESTINATION, `User ${pinned_usr} unpinned.`, pinned_usr);
+					pinned_usr = "";
+				}
+				else if (payload.message.entities && payload.message.entities.length > 0 && payload.message.entities[0].type === "bot_command") { 
+					await SendMessage(DESTINATION, `Hey chief! Invalid command, check the User guide at ${user_guide}.`);
+				} /////////////handle the pin
+				else if (pinned_usr) {
+					// Send reply
+					await SendMessage(pinned_usr, payload.message.text);
+					// Informate you
+					await SendMessage(DESTINATION, "Reply sent to " + pinned_usr, pinned_usr);
+				}
+				else { 
+					await SendMessage(DESTINATION, `Hey chief! Invalid command, check the User guide at ${user_guide}.`);
+				} 
 			}
 			else if (!blocked.includes(chatId.toString()) && suspended) {
 				await SendMessage(chatId, susp_info + " " + custom_susp);
