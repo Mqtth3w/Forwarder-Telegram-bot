@@ -8,7 +8,7 @@ let suspended = false;
 let susp_info = "Sorry, the service is temporarily suspended.";
 let custom_susp = "";
 let pinned_usr = ""; 
-const nick = "Mqtth3w"; // Change with your nickname
+const nick = "Mqtth3w"; // Change it with your nickname
 let url = `https://api.telegram.org/bot${API_KEY}/`;
 const user_guide = "https://github.com/Mqtth3w/Forwarder-Telegram-bot/tree/main#user-guide";
 const faq = "https://github.com/Mqtth3w/Forwarder-Telegram-bot/tree/main#faq";
@@ -60,18 +60,16 @@ async function handleRequest(request) {
 	if (request.method === "POST") {
 		const payload = await request.json();
 		if ('message' in payload) {
-			const chatId = payload.message.chat.id;
+			const chatId = payload.message.chat.id.toString();
 			const text = payload.message.text;
-			if (chatId.toString() === DESTINATION) {
+			if (chatId === DESTINATION) {
 				let command = text.split(" ")[0];
 				if ('reply_to_message' in payload.message) {
 					// Send reply, get first the original sender id
 					let infoSender = payload.message.reply_to_message.text;
 					let infoArr = infoSender.split(" ");
 					const senderId = infoArr[0];
-					// Send reply
 					await SendMessage(senderId, text);
-					// Informate you
 					await SendMessage(DESTINATION, "Reply sent to " + senderId, senderId);
 				}
 				else if (command === "/start") {
@@ -80,7 +78,7 @@ async function handleRequest(request) {
 				else if (command === "/block") {
 					let infoBlock = text.split(" ");
 					if (infoBlock[1] && Number(infoBlock[1]) > 0) {
-						if (!blocked.includes(infoBlock[1])) { //Not already blocked
+						if (!blocked.includes(infoBlock[1])) { // Not already blocked
 							blocked.push(infoBlock[1]);
 							await SendMessage(DESTINATION, `User ${infoBlock[1]} blocked.`, infoBlock[1]);
 						}
@@ -96,7 +94,7 @@ async function handleRequest(request) {
 					let infoBlock = text.split(" ");
 					if (infoBlock[1] && Number(infoBlock[1]) > 0) {
 						let index = blocked.indexOf(infoBlock[1]);
-						if (index > -1) { // only splice array when item is found
+						if (index > -1) { // Only splice array when item is found
 							blocked.splice(index, 1); // 2nd parameter means remove one item only
 							await SendMessage(DESTINATION, `User ${infoBlock[1]} unblocked.`, infoBlock[1]);
 						}
@@ -156,10 +154,10 @@ async function handleRequest(request) {
 					await SendMessage(DESTINATION, `Hey chief! Invalid command, check the User guide at ${user_guide}.`);
 				} 
 			}
-			else if (!blocked.includes(chatId.toString()) && suspended) {
+			else if (!blocked.includes(chatId) && suspended) {
 				await SendMessage(chatId, susp_info + " " + custom_susp);
 			}
-			else if (!blocked.includes(chatId.toString())) {
+			else if (!blocked.includes(chatId)) {
 				const first_name = payload.message.from.first_name;
 				const last_name = payload.message.from.last_name;
 				const username = payload.message.from.username;
