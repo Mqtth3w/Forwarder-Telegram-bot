@@ -149,9 +149,7 @@ async function handleRequest(request) {
 					await SendMessage(DESTINATION, `Hey chief! Invalid command, check the User guide at ${user_guide}.`);
 				}
 				else if (pinned_usr) {
-					// Send reply
 					await SendMessage(pinned_usr, payload.message.text);
-					// Informate you
 					await SendMessage(DESTINATION, "Reply sent to " + pinned_usr, pinned_usr);
 				}
 				else { 
