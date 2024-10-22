@@ -12,7 +12,7 @@
 > 
 > ## Good privacy practices
 > - To protect your privacy you could use a [duck address](https://duckduckgo.com/duckduckgo-help-pages/email-protection/duck-addresses/) for the registration. A duck address should be binded to a privacy focused email (e.g. [tutamail](https://tuta.com/)).
-> - Protect your ip address: [whonix](https://www.whonix.org/), no log [vpn](https://riseup.net/en/vpn).
+> - Protect your ip address: no log [vpn](https://riseup.net/en/vpn), [whonix](https://www.whonix.org/).
 ---
 > [!TIP]
 > ## Certificate
