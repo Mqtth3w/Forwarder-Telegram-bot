@@ -63,6 +63,7 @@ To deploy it, follow these steps:
 - `/blocked` gives you the list of users you blocked (their IDs). This may be useful because if you update your bot's code, the blocked list will reset and start from scratch.
 - `/pin <User ID>` set the user with the specified ID as default receiver. It means if you send a message to the bot (not a command) it will be sent automatically to the pinned user except if you use the standard reply then you will reply the specified user.
 - `/unpin` unpin the pinned user.
+- `/show <User ID>` show you the profile of the user with the specified ID. It doesn't give you an answer if the user doesn't exist.
 
 # FAQ
 - Why the sender ID? Because it is an unique identifier that never changes for the user (until deletion). It is like a primary key.
