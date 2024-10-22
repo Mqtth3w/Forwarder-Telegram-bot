@@ -62,14 +62,6 @@ async function handleRequest(request) {
 		if ('message' in payload) {
 			const chatId = payload.message.chat.id;
 			const text = payload.message.text;
-			const first_name = payload.message.from.first_name;
-			const last_name = payload.message.from.last_name;
-			const username = payload.message.from.username;
-			let user = first_name;
-			if (last_name != null) { 
-				user = user + " " + last_name;
-			}
-			let info = chatId + "  " + user;
 			if (chatId.toString() === DESTINATION) {
 				let command = text.split(" ")[0];
 				if ('reply_to_message' in payload.message) {
@@ -155,7 +147,7 @@ async function handleRequest(request) {
 				}
 				else if (payload.message.entities && payload.message.entities.length > 0 && payload.message.entities[0].type === "bot_command") { 
 					await SendMessage(DESTINATION, `Hey chief! Invalid command, check the User guide at ${user_guide}.`);
-				} /////////////handle the pin
+				}
 				else if (pinned_usr) {
 					// Send reply
 					await SendMessage(pinned_usr, payload.message.text);
@@ -170,6 +162,14 @@ async function handleRequest(request) {
 				await SendMessage(chatId, susp_info + " " + custom_susp);
 			}
 			else if (!blocked.includes(chatId.toString())) {
+				const first_name = payload.message.from.first_name;
+				const last_name = payload.message.from.last_name;
+				const username = payload.message.from.username;
+				let user = first_name;
+				if (last_name != null) { 
+					user = user + " " + last_name;
+				}
+				let info = chatId + "  " + user;
 				if (text === "/start") {
 					await SendMessage(chatId, `Hello, ${user}!`);
 					await SendMessage(DESTINATION, (username != null) ? `${info} @${username} started the bot.`	: `${info} started the bot.`, chatId);
