@@ -142,6 +142,16 @@ export default {
 						const { results } = await env.db.prepare("SELECT * FROM users").all();
 						await SendMessage(url, env.DESTINATION, results);
 					}
+					else if (command === "/delete") {
+						let infoBlock = text.split(" ");
+						if (infoBlock[1] && Number(infoBlock[1]) > 0) {
+							await env.db.prepare("DELETE FROM users WHERE id = ?").bind(infoBlock[1]).run();
+							await SendMessage(url, env.DESTINATION, `User ${infoBlock[1]} deleted (if exist).`, infoBlock[1]);
+						}
+						else {
+							await SendMessage(url, env.DESTINATION, "Invalid User ID.");
+						}
+					}
 					else if (payload.message.entities && payload.message.entities.length > 0 && payload.message.entities[0].type === "bot_command") { 
 						await SendMessage(url, env.DESTINATION, `Hey chief! Invalid command, check the User guide at ${user_guide}.`);
 					}
