@@ -1,6 +1,9 @@
 # Security Policy
 
 > [!IMPORTANT]
+> ## Good privacy practices
+> To protect your privacy you could use a [duck address](https://duckduckgo.com/duckduckgo-help-pages/email-protection/duck-addresses/) for the registration. A duck address should be binded to a privacy focused email (e.g. [tutamail](https://tuta.com/)).
+> 
 > ## Security guidelines
 > 
 > - Never share your bot api key.
