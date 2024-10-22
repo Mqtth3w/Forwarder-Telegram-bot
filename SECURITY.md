@@ -41,7 +41,7 @@ currently being supported with security updates.
 >
 > ## Responsibility
 >
-> You are responsible for what you do with this code. In some countries, e.g. EU states according to the GDPR law, there are laws that protect users from data collection so in that countries you should provide an opt out mode.
+> You are responsible for what you do with this code. In some countries, e.g. EU states according to the GDPR law, there are laws that protect users from data collection so in that countries you should provide an opt out mode (db version).
 
 <!--
 Use this section to tell people how to report a vulnerability.
