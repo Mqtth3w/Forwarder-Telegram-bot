@@ -6,6 +6,10 @@
 > - Never share your bot api key.
 > - Never Share your secret token.
 > - Never share your Cloudflare worker url. If someone know your worker url can impersonate you with fake requests to the worker (they should also know your secret token or brute force it), because your Telegram ID is not secret. If your worker url is not secret change it!
+>
+> ## Attention!
+> Please note: Cloudflare hosts your service so they could be able to see all your data. To stay really secure and anonym you should host it by yourself.
+
 ---
 > [!TIP]
 > ## Certificate
