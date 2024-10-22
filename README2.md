@@ -10,7 +10,7 @@ The version [tel_bot_db.js](./tel_bot_db.js) uses the Cloudflare D1 service, so 
     - surname: text.
     - username: text.
     - start_date: text.
-    - isblocked: text. Default value: false.
+    - isblocked: text. Default value: "false".
 - Use the code of [tel_bot_db.js](./tel_bot_db.js) for your worker.
 - With the worker selected, go to settings and then bindings. Click add, click D1 database, choose the variable name "db" and select your database by the name you set previously. Then save.
 
