@@ -143,6 +143,15 @@ async function handleRequest(request) {
 					await SendMessage(DESTINATION, `User ${pinned_usr} unpinned.`, pinned_usr);
 					pinned_usr = "";
 				}
+				else if (command === "/show") {
+					let infoBlock = text.split(" ");
+					if (infoBlock[1] && Number(infoBlock[1]) > 0) {
+						await SendMessage(DESTINATION, `User ${infoBlock[1]}.`, infoBlock[1]);
+					}
+					else {
+						await SendMessage(DESTINATION, "Invalid User ID.");
+					}
+				}
 				else if (payload.message.entities && payload.message.entities.length > 0 && payload.message.entities[0].type === "bot_command") { 
 					await SendMessage(DESTINATION, `Hey chief! Invalid command, check the User guide at ${user_guide}.`);
 				}
