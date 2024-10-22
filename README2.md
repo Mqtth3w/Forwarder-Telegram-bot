@@ -12,7 +12,7 @@ The version [tel_bot_db.js](./tel_bot_db.js) uses the Cloudflare D1 service, so 
     - start_date: text.
     - isblocked: text. Default value: false.
 - Use the code of [tel_bot_db.js](./tel_bot_db.js) for your worker.
-- With the worker selected, go to settings and then bindings. Click add, click D1 database, choose the variable name "db" and select you database by the name you set previously. Then save.
+- With the worker selected, go to settings and then bindings. Click add, click D1 database, choose the variable name "db" and select your database by the name you set previously. Then save.
 
 ## Extra commands (DESTINATION)
 - `/history` gives you the list of users that started the bot, so id, name, surname (if exists), username (if exists), start date, if it is blocked. All the data refer to the date of the start. If the user change all the data you still be able to see they with the command `/show <User ID>`.
