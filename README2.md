@@ -1,5 +1,5 @@
 # DB version
-The version [tel_bot_db.js](./tel_bot_db.js) uses the Cloudflare D1 service, so it has a database and can save some data "permanetly". E.g. you can save all users that contacted you, etc. So this version have some more commands. The database has a free plan but it have some [limitations](https://developers.cloudflare.com/d1/platform/limits/) as the free worker. If you aren't famous the limits are very high, so no worries. Sometimes this version can be slow because Cloudflare gives a limited amout of resources especially in db writing operations.
+The version [tel_bot_db.js](./tel_bot_db.js) uses the Cloudflare D1 service, so it has a database and can save some data "permanetly". E.g. you can save all users that contacted you, etc. So this version have some more commands. The database has a free plan but it have some [limitations](https://developers.cloudflare.com/d1/platform/limits/) as the free worker. If you aren't famous the limits are very high, so no worries. Sometimes this version can be slow because Cloudflare gives a limited amout of resources especially in db writing operations so the normal version is recommended if you need a really responsive bot for free.
 
 ## How to deploy it
 - Go to workers & pages then to D1 SQL databases.
