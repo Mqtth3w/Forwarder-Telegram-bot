@@ -11,7 +11,7 @@
 > Please note: Cloudflare hosts your service so they could be able to see all your data. To stay really secure and anonym you should host it by yourself.
 > 
 > ## Good privacy practices
-> - To protect your privacy you could use a [duck address](https://duckduckgo.com/duckduckgo-help-pages/email-protection/duck-addresses/) for the registration. A duck address should be binded to a privacy focused email (e.g. [tutamail](https://tuta.com/)).
+> - To protect your privacy you could use a [duck address](https://duckduckgo.com/duckduckgo-help-pages/email-protection/duck-addresses/) for the cloudflare registration. A duck address should be binded to a privacy focused email (e.g. [tutamail](https://tuta.com/)).
 > - Protect your ip address: no log [vpn](https://riseup.net/en/vpn), [whonix](https://www.whonix.org/).
 ---
 > [!TIP]
