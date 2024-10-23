@@ -46,6 +46,17 @@ async function ForwardMessage(url, cId, fcId, mId) {
 	});
 };
 
+async function sendBroadcastMessage(url, dest, msg, users) {
+    for (const userId of users) {
+        try {
+            await SendMessage(url, userId, msg);
+            await new Promise(resolve => setTimeout(resolve, 1000)); // Avoid hitting rate limits
+        } catch (err) {
+            await SendMessage(url, dest, `An error occurred while broadcasting to the user ${userId}: ${err}`, userId);
+        }
+    }
+}
+
 export default {
 	async fetch(request, env) {
 		const secret_token = request.headers.get("X-Telegram-Bot-Api-Secret-Token");
@@ -152,6 +163,27 @@ export default {
 							await SendMessage(url, env.DESTINATION, "Invalid User ID.");
 						}
 					}
+					else if (command === "/broadcast") {
+						let firstSpaceIndex = text.indexOf(' ');
+						if (firstSpaceIndex !== -1) {
+							let msg = text.slice(firstSpaceIndex + 1);
+							try {
+								const { results } = await env.db.prepare("SELECT id FROM users").all();
+								if (results.length > 0) {
+									await sendBroadcastMessage(url, env.DESTINATION, msg, results.map(row => row.id));
+									await SendMessage(url, env.DESTINATION, "Message broadcasted.");
+								}
+								else {
+									await SendMessage(url, env.DESTINATION, "There aren't users in your DB.");
+								}
+							} catch (err) {
+								await SendMessage(url, env.DESTINATION, `Error: ${err}`);
+							}
+						}
+						else {
+							await SendMessage(url, env.DESTINATION, "You must provide a message to be broadcasted.");
+						}
+					}
 					else if (payload.message.entities && payload.message.entities.length > 0 && payload.message.entities[0].type === "bot_command") { 
 						await SendMessage(url, env.DESTINATION, `Hey chief! Invalid command, check the User guide at ${user_guide}.`);
 					}
@@ -175,21 +207,27 @@ export default {
 					}
 					else if (isBlocked === "false") {
 						const first_name = payload.message.from.first_name;
-						const last_name = payload.message.from.last_name;
-						const username = payload.message.from.username;
+						const last_name = payload.message.from.last_name || "";
+						const username = payload.message.from.username || "";
 						let user = first_name;
 						if (last_name != null) { 
 							user = user + " " + last_name;
 						}
 						let info = chatId + "  " + user;
-
 						if (text === "/start") {
-							await SendMessage(url, chatId, `Hello, ${user}!`);
 							const { results } = await env.db.prepare("SELECT * FROM users WHERE id = ?")
 								.bind(chatId).all();
 							if (results.length === 0) {
-								await env.db.prepare("INSERT INTO users (id, name, surname, username, start_date, isblocked) VALUES (?,?,?,?,?,?)")
-									.bind(chatId, first_name, last_name, username, (new Date()).toISOString(), "false").run();
+								try {
+									await env.db.prepare("INSERT INTO users (id, name, surname, username, start_date, isblocked) VALUES (?,?,?,?,?,?)")
+										.bind(chatId, first_name, last_name, username, (new Date()).toISOString(), "false").run();
+									await SendMessage(url, chatId, `Hello, ${user}!`);
+								} catch (err) {
+									await SendMessage(url, env.DESTINATION, `Error during user ${chatId} start: ${err}`, chatId);
+								}
+							}
+							else {
+								await SendMessage(url, chatId, `Welcome back, ${user}!`);
 							}
 							await SendMessage(url, env.DESTINATION, (username != null) ? `${info} @${username} started the bot.`	: `${info} started the bot.`, chatId);
 						}
