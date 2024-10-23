@@ -65,6 +65,9 @@ To deploy it, follow these steps:
 - `/unpin` unpin the pinned user.
 - `/show <User ID>` show you the profile of the user with the specified ID. It doesn't give you an answer if the user doesn't exist.
 
+# Version 2
+[This](./README2.md) version is based on a database and have more commands.
+
 # FAQ
 - Why the sender ID? Because it is an unique identifier that never changes for the user (until deletion). It is like a primary key.
 - Why to use webhook? Webhook is more efficient and scalable than polling.
