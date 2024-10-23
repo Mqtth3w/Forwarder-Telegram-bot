@@ -17,7 +17,7 @@
 > [!TIP]
 > ## Certificate
 > 
-> Optionally, you can set up a self-signed certificate to enhance the security of requests. 
+> Optionally, you can set up a self-signed certificate to enhance the security of the requests. 
 > For more datails check the following links: [setWebhook](https://core.telegram.org/bots/api#setwebhook) and [self-signed](https://core.telegram.org/bots/self-signed).
 ---
 <!--
