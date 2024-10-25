@@ -4,7 +4,7 @@ This bot allow you to be contacted without giving your Telegram account. In part
 Inspired by https://t.me/killmilk_support_bot.
 
 
-## How to deploy the bot completely free ([Cloudflare](https://www.cloudflare.com/) based):
+## How to deploy the bot completely free ([Cloudflare](https://www.cloudflare.com/) based)
 It can handle 100k requests for free per day (Cloudflare limits).
 
 - Create a new bot on telegram with [@BotFather](https://telegram.me/BotFather). Save the api token for future use.
