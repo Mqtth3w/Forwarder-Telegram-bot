@@ -60,12 +60,12 @@ To deploy it, follow these steps:
 - `/suspend <Optionally insert here a custom sentence>` suspend the service. Means that when a user uses the bot, they will receive a message: "Sorry, the service is temporarily suspended. [+custom sentence]". So the DESTINATION will not be informed. Example: `/suspend I'm in vacation` then the user will recive "Sorry, the service is temporarily suspended. I'm in vacation". You can also use the suspend command to change the custom sentence, sending it again with a new sentence.
 - `/unsuspend` unsuspend the service. When you unsuspend, you clear the custom sentence.
 - `/help` gives you a link to this User guide and FAQ.
-- `/blocked` gives you the list of users you blocked (their IDs). This may be useful because if you update your bot's code, the blocked list will reset and start from scratch.
+- `/blocked` gives you the list of users you blocked (their IDs). This may be useful because if you update your bot's code, the blocked list will reset and start from scratch (limitation solved in the DB version).
 - `/pin <User ID>` set the user with the specified ID as default receiver. It means if you send a message to the bot (not a command) it will be sent automatically to the pinned user except if you use the standard reply then you will reply the specified user.
 - `/unpin` unpin the pinned user.
 - `/show <User ID>` show you the profile of the user with the specified ID. It doesn't give you an answer if the user doesn't exist.
 
-# Version 2
+# DB version
 [This](./README2.md) version is based on a database and have more commands.
 
 # FAQ
