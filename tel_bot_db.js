@@ -207,8 +207,8 @@ export default {
 					}
 					else if (isBlocked === "false") {
 						const first_name = payload.message.from.first_name;
-						const last_name = payload.message.from.last_name || "";
-						const username = payload.message.from.username || "";
+						const last_name = payload.message.from.last_name;
+						const username = payload.message.from.username;
 						let user = first_name;
 						if (last_name != null) { 
 							user = user + " " + last_name;
@@ -220,7 +220,7 @@ export default {
 							if (results.length === 0) {
 								try {
 									await env.db.prepare("INSERT INTO users (id, name, surname, username, start_date, isblocked) VALUES (?,?,?,?,?,?)")
-										.bind(chatId, first_name, last_name, username, (new Date()).toISOString(), "false").run();
+										.bind(chatId, first_name, last_name || "", username || "", (new Date()).toISOString(), "false").run();
 									await SendMessage(url, chatId, `Hello, ${user}!`);
 								} catch (err) {
 									await SendMessage(url, env.DESTINATION, `Error during user ${chatId} start: ${err}`, chatId);
