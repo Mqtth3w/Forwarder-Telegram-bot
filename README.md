@@ -49,7 +49,7 @@ To deploy it, follow these steps:
 -->
 # User guide
 ### Base user
-- Satrt the bot.
+- Start the bot.
 - Send a message to the bot to send a message to DESTINATION.
 - Send `/help` to see what the bot do: "This bot forward all messages you send to &lt;your nick&gt;. Through this bot, &lt;your nick&gt; can reply you.".
 ### DESTINATION
