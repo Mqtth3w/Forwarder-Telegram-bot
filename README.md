@@ -78,7 +78,7 @@ For any comment or to request a new feature you can either use the [Discussions]
 
 # Donate
 Donate to support my projects. 
-- Crypto: contact me for the address.
+- Crypto: Use the command `/donate` in the [bot](https://t.me/Mqtth3w_support_bot).
 - [Sponsor](https://github.com/sponsors/Mqtth3w).
 - [Buy me a pizza](https://buymeacoffee.com/mqtth3w).
 
