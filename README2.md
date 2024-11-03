@@ -19,3 +19,5 @@ The version [tel_bot_db.js](./tel_bot_db.js) uses the Cloudflare D1 service, so 
 - `/blocked` gives you the same data of the previous but only for the blocked users. Now if you update your worker code the blocked users still stay blocked because they are saved in the database.
 - `/delete <User ID>` delete the user with the specified ID from the database.
 - `/broadcast <Your message>` broadcast the message to all the users in the DB. You must provide a messagge.
+
+## There are lots of new commands I can add with a DB, donate to support the project and I will implement them.
