@@ -21,3 +21,9 @@ The version [tel_bot_db.js](./tel_bot_db.js) uses the Cloudflare D1 service, so 
 - `/broadcast <Your message>` broadcast the message to all the users in the DB. You must provide a messagge.
 
 ## There are lots of new commands I can add with a DB, donate to support the project and I will implement them.
+
+# Donate
+Donate to support my projects. 
+- Crypto: Use the command `/donate` in the [bot](https://t.me/Mqtth3w_support_bot).
+- [Sponsor](https://github.com/sponsors/Mqtth3w).
+- [Buy me a pizza](https://buymeacoffee.com/mqtth3w).
