@@ -50,9 +50,9 @@ async function sendBroadcastMessage(url, dest, msg, users) {
     for (const userId of users) {
         try {
             await SendMessage(url, userId, msg);
-            await new Promise(resolve => setTimeout(resolve, 1000)); // Avoid hitting rate limits
+            await new Promise(resolve => setTimeout(resolve, 40)); // Avoid hitting rate limits (30 messages/second)
         } catch (err) {
-            await SendMessage(url, dest, `An error occurred while broadcasting to the user ${userId}: ${err}`, userId);
+            await SendMessage(url, dest, `An error occurred while broadcasting to the user ${userId}: ${err}.`, userId);
         }
     }
 }
@@ -223,7 +223,7 @@ export default {
 										.bind(chatId, first_name, last_name || "", username || "", (new Date()).toISOString(), "false").run();
 									await SendMessage(url, chatId, `Hello, ${user}!`);
 								} catch (err) {
-									await SendMessage(url, env.DESTINATION, `Error during user ${chatId} start: ${err}`, chatId);
+									await SendMessage(url, env.DESTINATION, `Error during user ${chatId} start: ${err}.`, chatId);
 								}
 							}
 							else {
