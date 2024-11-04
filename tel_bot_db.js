@@ -101,7 +101,7 @@ export default {
 						}
 					}
 					else if(command === "/unblock") {
-						let infoBlock = text.split(" "); // Check if they are already blocked may be expensive
+						let infoBlock = text.split(" "); // Check if they are already unblocked may be expensive
 						if (infoBlock[1] && Number(infoBlock[1]) > 0) {
 							await env.db.prepare("UPDATE users SET isblocked = ? WHERE id = ?").bind("false", infoBlock[1]).run();
 							await SendMessage(url, env.DESTINATION, `User ${infoBlock[1]} unblocked.`, false, infoBlock[1]);
@@ -220,17 +220,20 @@ export default {
 						const last_name = payload.message.from.last_name;
 						const username = payload.message.from.username;
 						let user = first_name;
-						if (last_name) { 
+						if (last_name) {
 							user = user + " " + last_name;
 						}
 						let info = chatId + "  " + user;
+						const lang = payload.message.from.language_code;
+						const is_bot = payload.message.from.is_bot;
+						let extraInfo = `language_code:${lang} is_bot:${is_bot}`;
 						if (text === "/start") {
 							const { results } = await env.db.prepare("SELECT * FROM users WHERE id = ?")
 								.bind(chatId).all();
 							if (results.length === 0) {
 								try {
-									await env.db.prepare("INSERT INTO users (id, name, surname, username, start_date, isblocked) VALUES (?,?,?,?,?,?)")
-										.bind(chatId, first_name, last_name || "", username || "", (new Date()).toISOString(), "false").run();
+									await env.db.prepare("INSERT INTO users (id, name, surname, username, start_date, isblocked, language_code, is_bot) VALUES (?,?,?,?,?,?,?,?)")
+										.bind(chatId, first_name, last_name || "", username || "", (new Date()).toISOString(), "false", lang, is_bot).run();
 									await SendMessage(url, chatId, `Hello, ${user}!`);
 								} catch (err) {
 									await SendMessage(url, env.DESTINATION, `Error during user ${chatId} start: ${err}.`, false, chatId);
@@ -239,16 +242,16 @@ export default {
 							else {
 								await SendMessage(url, chatId, `Welcome back, ${user}!`);
 							}
-							await SendMessage(url, env.DESTINATION, (username) ? `${info} @${username} started the bot.`	: `${info} started the bot.`, false, chatId);
+							await SendMessage(url, env.DESTINATION, (username) ? `${info} @${username} ${extraInfo} started the bot.`	: `${info} ${extraInfo} started the bot.`, false, chatId);
 						}
 						else if (text === "/help") {
 							await SendMessage(url, chatId, `This bot forward all messages you send to ${nick}. Through this bot, ${nick} can reply you.`);
-							await SendMessage(url, env.DESTINATION, (username) ? `${info} @${username} typed /help.` : `${info} typed /help.`, false, chatId);
+							await SendMessage(url, env.DESTINATION, (username) ? `${info} @${username} ${extraInfo} typed /help.` : `${info} ${extraInfo} typed /help.`, false, chatId);
 						}
 						else {
 							await SendMessage(url, chatId, "Message sent.");
 							await ForwardMessage(url, env.DESTINATION, chatId, payload.message.message_id, false);
-							await SendMessage(url, env.DESTINATION, (username) ? `${info} @${username}.` : `${info}.`, false, chatId);
+							await SendMessage(url, env.DESTINATION, (username) ? `${info} @${username} ${extraInfo}.` : `${info} ${extraInfo}.`, false, chatId);
 						}
 					}
 				}

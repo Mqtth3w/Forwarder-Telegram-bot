@@ -182,22 +182,23 @@ async function handleRequest(request) {
 				const last_name = payload.message.from.last_name;
 				const username = payload.message.from.username;
 				let user = first_name;
-				if (last_name) { 
+				if (last_name) {
 					user = user + " " + last_name;
 				}
 				let info = chatId + "  " + user;
+				let extraInfo = `language_code:${payload.message.from.language_code} is_bot:${payload.message.from.is_bot}`;
 				if (text === "/start") {
 					await SendMessage(chatId, `Hello, ${user}!`);
-					await SendMessage(DESTINATION, (username) ? `${info} @${username} started the bot.`	: `${info} started the bot.`, false, chatId);
+					await SendMessage(DESTINATION, (username) ? `${info} @${username} ${extraInfo} started the bot.`	: `${info} ${extraInfo} started the bot.`, false, chatId);
 				}
 				else if (text === "/help") {
 					await SendMessage(chatId, `This bot forward all messages you send to ${nick}. Through this bot, ${nick} can reply you.`);
-					await SendMessage(DESTINATION, (username) ? `${info} @${username} typed /help.` : `${info} typed /help.`, false, chatId);
+					await SendMessage(DESTINATION, (username) ? `${info} @${username} ${extraInfo} typed /help.` : `${info} ${extraInfo} typed /help.`, false, chatId);
 				}
 				else {
 					await SendMessage(chatId, "Message sent.");
 					await ForwardMessage(DESTINATION, chatId, payload.message.message_id);
-					await SendMessage(DESTINATION, (username) ? `${info} @${username}.` : `${info}.`, false, chatId);
+					await SendMessage(DESTINATION, (username) ? `${info} @${username} ${extraInfo}.` : `${info}.`, false, chatId);
 				}
 			}
 		}
