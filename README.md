@@ -1,5 +1,5 @@
 # Bot to be contacted without giving your Telegram account
-This bot allow you to be contacted without giving your Telegram account. In particular, Anyone who contacts you via this bot only has the information indicated in the bot or associated with it. Instead, you will know "everything" about who contacts you: name, ID, username, profile link...
+This bot allow you to be contacted without giving your Telegram account. In particular, Anyone who contacts you via this bot only has the information indicated in the bot or associated with it. Instead, you will know "everything" about who contacts you: ID, name, username, profile, language, if it is a bot...
 
 Inspired by https://t.me/killmilk_support_bot.
 
