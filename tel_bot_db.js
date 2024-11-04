@@ -47,6 +47,35 @@ async function ForwardMessage(url, cId, fcId, mId, pc = true) {
 	});
 };
 
+async function SendFormatMessage(url, dest, res, pc = true) {
+	if (res.length === 0) {
+		await SendMessage(url, dest, "No users.", false);
+		return;
+	}
+	let total = 0;
+	let message = "";
+	const batchSize = 10;
+	for (let i = 0; i < res.length; i++) {
+		const user = res[i];
+		total++;
+		message += `ID: ${user.id}\n` + 
+			`name: ${user.name}\n` + 
+            `surname: ${user.surname}\n` + 
+            `username: ${user.username}\n` + 
+            `start_date: ${user.start_date}\n` + 
+            `isblocked: ${user.isblocked}\n` + 
+			`language_code: ${user.language_code}\n` + 
+			`is_bot: ${user.is_bot}\n\n`;
+		if ((total % batchSize === 0) || (i === res.length - 1)) {
+			if (i === res.length - 1) {
+				message += `total: ${total}.`;
+			}
+			await SendMessage(url, dest, message, false);
+			message = ""; 
+		}
+    }
+};
+
 async function sendBroadcastMessage(url, dest, msg, users, pc = true) {
     for (const userId of users) {
         try {
@@ -132,7 +161,7 @@ export default {
 					else if (command === "/blocked") {
 						const { results } = await env.db.prepare("SELECT * FROM users WHERE isblocked = ?")
 							.bind("true").all();
-						await SendMessage(url, env.DESTINATION, results, false);
+						await SendFormatMessage(url, env.DESTINATION, results, false);
 					}
 					else if (command === "/pin") {
 						let infoBlock = text.split(" ");
@@ -159,7 +188,7 @@ export default {
 					}
 					else if (command === "/history") {
 						const { results } = await env.db.prepare("SELECT * FROM users").all();
-						await SendMessage(url, env.DESTINATION, results, false);
+						await SendFormatMessage(url, env.DESTINATION, results, false);
 					}
 					else if (command === "/delete") {
 						let infoBlock = text.split(" ");
