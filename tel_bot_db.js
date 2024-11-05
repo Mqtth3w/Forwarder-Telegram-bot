@@ -57,11 +57,12 @@ async function SendFormatMessage(url, dest, res, pc = true) {
 	const batchSize = 10;
 	for (let i = 0; i < res.length; i++) {
 		const user = res[i];
+		let username = user.username ? `@${user.username}` : ``;
 		total++;
 		message += `ID: ${user.id}\n` + 
 			`name: ${user.name}\n` + 
             `surname: ${user.surname}\n` + 
-            `username: ${user.username}\n` + 
+            `username: ${username}\n` + 
             `start_date: ${user.start_date}\n` + 
             `isblocked: ${user.isblocked}\n` + 
 			`language_code: ${user.language_code}\n` + 
@@ -271,16 +272,16 @@ export default {
 							else {
 								await SendMessage(url, chatId, `Welcome back, ${user}!`);
 							}
-							await SendMessage(url, env.DESTINATION, (username) ? `${info} @${username} ${extraInfo} started the bot.`	: `${info} ${extraInfo} started the bot.`, false, chatId);
+							await SendMessage(url, env.DESTINATION, username ? `${info} @${username} ${extraInfo} started the bot.`	: `${info} ${extraInfo} started the bot.`, false, chatId);
 						}
 						else if (text === "/help") {
 							await SendMessage(url, chatId, `This bot forward all messages you send to ${nick}. Through this bot, ${nick} can reply you.`);
-							await SendMessage(url, env.DESTINATION, (username) ? `${info} @${username} ${extraInfo} typed /help.` : `${info} ${extraInfo} typed /help.`, false, chatId);
+							await SendMessage(url, env.DESTINATION, username ? `${info} @${username} ${extraInfo} typed /help.` : `${info} ${extraInfo} typed /help.`, false, chatId);
 						}
 						else {
 							await SendMessage(url, chatId, "Message sent.");
 							await ForwardMessage(url, env.DESTINATION, chatId, payload.message.message_id, false);
-							await SendMessage(url, env.DESTINATION, (username) ? `${info} @${username} ${extraInfo}.` : `${info} ${extraInfo}.`, false, chatId);
+							await SendMessage(url, env.DESTINATION, username ? `${info} @${username} ${extraInfo}.` : `${info} ${extraInfo}.`, false, chatId);
 						}
 					}
 				}
