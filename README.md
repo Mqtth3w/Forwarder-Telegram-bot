@@ -54,7 +54,7 @@ To deploy it, follow these steps:
 - Send `/help` to see what the bot do: "This bot forward all messages you send to &lt;your nick&gt;. Through this bot, &lt;your nick&gt; can reply you.".
 ### DESTINATION
 - Start the bot.
-- To reply do reply at the message with the ID of the sender. 
+- To reply do reply at the message with the ID of the sender. You can reply with text, photo, video, audio, voice, animation, sticker, document and location.
 - `/block <Sender ID>` block the sender. <!-- &lt;replace with senderID&gt; -->
 - `/unblock <Sender ID>` unblock the sender.
 - `/suspend <Optionally insert here a custom sentence>` suspend the service. Means that when a user uses the bot, they will receive a message: "Sorry, the service is temporarily suspended. [+custom sentence]". So the DESTINATION will not be informed. Example: `/suspend I'm in vacation` then the user will recive "Sorry, the service is temporarily suspended. I'm in vacation". You can also use the suspend command to change the custom sentence, sending it again with a new sentence.
@@ -78,7 +78,7 @@ For any comment or to request a new feature you can either use the [Discussions]
 
 # Donate
 Donate to support my projects. 
-- Crypto: Use the command `/donate` in the [bot](https://t.me/Mqtth3w_support_bot).
+- Crypto & others: Use the command `/support` in the [bot](https://t.me/Mqtth3w_support_bot).
 - [Sponsor](https://github.com/sponsors/Mqtth3w).
 - [Buy me a pizza](https://buymeacoffee.com/mqtth3w).
 
