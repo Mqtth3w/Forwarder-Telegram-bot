@@ -187,7 +187,7 @@ export default {
 						if (senderId && Number(senderId) > 0) {
 							if (text) {
 								await SendMessage(url, senderId, text, pc_user);
-								await SendMessage(url, env.DESTINATION, `Reply sent to ${pinned_usr}.`, pc_dest, senderId);
+								await SendMessage(url, env.DESTINATION, `Reply sent to ${senderId}.`, pc_dest, senderId);
 							}
 							else {
 								await SendMedia(url, payload.message, env.DESTINATION, senderId, pc_user, pc_dest);
