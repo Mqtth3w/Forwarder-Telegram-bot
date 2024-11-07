@@ -76,7 +76,7 @@ To deploy it, follow these steps:
 # Discussion
 For any comment or to request a new feature you can either use the [Discussions](https://github.com/Mqtth3w/Forwarder-Telegram-bot/discussions) section or contact me through the [bot](https://t.me/Mqtth3w_support_bot).
 
-# Donate
+# Support
 Donate to support my projects. 
 - Crypto & others: Use the command `/support` in the [bot](https://t.me/Mqtth3w_support_bot).
 - [Sponsor](https://github.com/sponsors/Mqtth3w).
