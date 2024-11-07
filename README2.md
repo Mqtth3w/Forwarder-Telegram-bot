@@ -22,7 +22,7 @@ The version [tel_bot_db.js](./tel_bot_db.js) uses the Cloudflare D1 service, so 
 - `/delete <User ID>` delete the user with the specified ID from the database.
 - `/broadcast <Your message>` broadcast the message to all the users in the DB. You must provide a messagge.
 
-# Donate
+# Support
 Donate to support my projects. 
 - Crypto: Use the command `/support` in the [bot](https://t.me/Mqtth3w_support_bot).
 - [Sponsor](https://github.com/sponsors/Mqtth3w).
