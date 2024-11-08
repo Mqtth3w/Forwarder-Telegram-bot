@@ -20,7 +20,7 @@ The version [tel_bot_db.js](./tel_bot_db.js) uses the Cloudflare D1 service, so 
 - `/history` gives you the list of users that started the bot and all their data in the database with chunks of ten. It gives also the total amount of users. All the data refer to the start date. If the user change all the data you still be able to see they with the command `/show <User ID>`. 
 - `/blocked` gives you the same data of the previous but only for the blocked users. Now if you update your worker code the blocked users still stay blocked because they are saved in the database.
 - `/delete <User ID>` delete the user with the specified ID from the database.
-- `/broadcast <Your message>` broadcast the message to all the users in the DB. You must provide a messagge.
+- `/broadcast <Your message>` broadcast the message to all the users in the DB. You must provide a message.
 
 # Support
 Donate to support my projects. 
