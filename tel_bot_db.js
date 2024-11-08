@@ -146,19 +146,26 @@ async function SendMedia(url, msg, dest, chatId, pc = true, pc_d = false) {
 		payload.latitude = msg.location.latitude;
 		payload.longitude = msg.location.longitude;
 	}
+	else if (msg.contact) {
+        method = "sendContact";
+        methodr = "Contact";
+        payload.phone_number = msg.contact.phone_number;
+        payload.first_name = msg.contact.first_name;
+        if (msg.contact.last_name) payload.last_name = msg.contact.last_name;
+    }
 	else {
 		await SendMessage(url, dest, `Unexpected data, reply not sent.`, pc_d);
 		return;
 	}
 
-	if (!msg.location) {
+	if (!msg.location && !msg.contact) {
 		payload[method2] = fileId;
 	}
 
 	await fetch(url + `${method}`, {
 		method: "POST",
 		headers: {
-		"Content-Type": "application/json",
+			"Content-Type": "application/json",
 		},
 		body: JSON.stringify(payload),
 	});

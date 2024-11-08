@@ -110,23 +110,30 @@ async function SendMedia(msg, dest, chatId, pc = true, pc_d = false) {
 		payload.latitude = msg.location.latitude;
 		payload.longitude = msg.location.longitude;
 	}
+	else if (msg.contact) {
+        method = "sendContact";
+        methodr = "Contact";
+        payload.phone_number = msg.contact.phone_number;
+        payload.first_name = msg.contact.first_name;
+        if (msg.contact.last_name) payload.last_name = msg.contact.last_name;
+    }
 	else {
-		await SendMessage(url, dest, `Unexpected data, reply not sent.`, pc_d);
+		await SendMessage(dest, `Unexpected data, reply not sent.`, pc_d);
 		return;
 	}
 
-	if (!msg.location) {
+	if (!msg.location && !msg.contact) {
 		payload[method2] = fileId;
 	}
 
 	await fetch(url + `${method}`, {
 		method: "POST",
 		headers: {
-		"Content-Type": "application/json",
+			"Content-Type": "application/json",
 		},
 		body: JSON.stringify(payload),
 	});
-	await SendMessage(url, dest, `${methodr} sent to ${chatId}.`, pc_d, chatId);
+	await SendMessage(dest, `${methodr} sent to ${chatId}.`, pc_d, chatId);
 };
 
 async function handleRequest(request) {
@@ -152,7 +159,7 @@ async function handleRequest(request) {
 							await SendMessage(DESTINATION, `Reply sent to ${senderId}.`, pc_dest, senderId);
 						}
 						else {
-							await SendMedia(payload.message, DESTINATION, pinned_usr, pc_user, pc_dest);
+							await SendMedia(payload.message, DESTINATION, senderId, pc_user, pc_dest);
 						}
 					}
 					else {
