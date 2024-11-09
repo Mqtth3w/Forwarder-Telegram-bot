@@ -64,6 +64,8 @@ To deploy it, follow these steps:
 - `/pin <User ID>` set the user with the specified ID as default receiver. It means if you send a message to the bot (not a command) it will be sent automatically to the pinned user except if you use the standard reply then you will reply the specified user.
 - `/unpin` unpin the pinned user.
 - `/show <User ID>` show you the profile of the user with the specified ID. It works only if the user has already started/used the bot. It doesn't give you an answer if the user doesn't exist or if the previous condition is not satisfied.
+- `/silentuser` negate the silent_user variable and show its current value. If it is true users will receive a notification with no sound.
+- `/silentdest` same of the previous but for the DESTINATION.
 
 # DB version
 [This](./README2.md) version is based on a database and have more commands.
