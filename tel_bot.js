@@ -158,7 +158,7 @@ async function handleRequest(request) {
 					const senderId = infoArr[0];
 					if (senderId && Number(senderId) > 0) {
 						if (text) {
-							await SendMessage(senderId, text, pc_user);
+							await SendMessage(senderId, text, pc_user, silent_user);
 							await SendMessage(DESTINATION, `Reply sent to ${senderId}.`, pc_dest, silent_dest, senderId);
 						}
 						else {
