@@ -1,4 +1,16 @@
-// @author Mqtth3w https://github.com/Mqtth3w/
+/**
+ * @fileoverview This script handle a Telegram support bot to be contacted anonymously.
+ *
+ * @author Mqtth3w https://github.com/Mqtth3w/
+ * @license GPL-3.0+ https://github.com/Mqtth3w/Forwarder-Telegram-bot/blob/main/LICENSE
+ *
+ */
+/**
+ * Event listener that listens for the 'fetch' event and delegates to the `handleRequest` function.
+ * 
+ * @param {FetchEvent} event - The FetchEvent object representing the incoming fetch event.
+ * The event contains the `request` object, which holds details about the incoming HTTP request.
+ */
 addEventListener("fetch", event => {
 	event.respondWith(handleRequest(event.request));
 });
@@ -17,6 +29,16 @@ let url = `https://api.telegram.org/bot${API_KEY}/`;
 const user_guide = "https://github.com/Mqtth3w/Forwarder-Telegram-bot/tree/main#user-guide";
 const faq = "https://github.com/Mqtth3w/Forwarder-Telegram-bot/tree/main#faq";
 
+/**
+ * Sends a text message to a specified user via a Telegram bot.
+ *
+ * @param {number|string} cId - The chat ID of the user to send the message to.
+ * @param {string} txt - The text message to be sent.
+ * @param {boolean} [pc=true] - Whether to protect the content of the message. Defaults to true.
+ * @param {boolean} [s=false] - If true, disables notification for the message. Defaults to false.
+ * @param {number|string} [prf] - The chat ID for the profile, used to generate an inline keyboard with a link to the user profile.
+ * @returns {Promise<void>} - This function does not return a value.
+ */
 async function SendMessage(cId, txt, pc = true, s = false, prf) {
 	let payload = {
 		chat_id: cId,
@@ -43,6 +65,16 @@ async function SendMessage(cId, txt, pc = true, s = false, prf) {
 	}); 
 };
 
+/**
+ * Forwards any type of message to a specified user via a Telegram bot.
+ *
+ * @param {number|string} cId - The chat ID of the user to send the message to.
+ * @param {number|string} fcId - The chat ID of the user who sent the message to be forwarded.
+ * @param {number|string} mId - The message ID of the message to be forwarded.
+ * @param {boolean} [pc=true] - Whether to protect the content of the message. Defaults to true.
+ * @param {boolean} [s=false] - If true, disables notification for the message. Defaults to false.
+ * @returns {Promise<void>} - This function does not return a value.
+ */
 async function ForwardMessage(cId, fcId, mId, pc = true, s = false) {
 	await fetch(url + 'forwardMessage', {
 		method: "POST",
@@ -59,6 +91,19 @@ async function ForwardMessage(cId, fcId, mId, pc = true, s = false) {
 	});
 };
 
+/**
+ * Sends a media message (photo, sticker, document, video, animation, audio, voice, location, or contact) to a specified chat.
+ * The function determines the media type based on the message structure and sends the appropriate media type.
+ * 
+ * @param {Object} msg - The message object containing the media or data to be sent.
+ * @param {number|string} dest - The chat ID of the destination where the status message will be sent.
+ * @param {number|string} cId - The chat ID of the user who will receive the media.
+ * @param {boolean} [pc=true] - Whether to protect the content of the message (user side). Defaults to true.
+ * @param {boolean} [pc_d=false] - Whether to protect the content of the status message (dest side). Defaults to false.
+ * @param {boolean} [s=false] - If true, disables notification for the media message (user side). Defaults to false.
+ * @param {boolean} [s_d=false] - If true, disables notification for the status message (dest side). Defaults to false.
+ * @returns {Promise<void>} - This function does not return a value.
+ */
 async function SendMedia(msg, dest, chatId, pc = true, pc_d = false, s = false, s_d = false) {
 	let method = "";
 	let method2 = "";
@@ -139,6 +184,12 @@ async function SendMedia(msg, dest, chatId, pc = true, pc_d = false, s = false, 
 	await SendMessage(dest, `${methodr} sent to ${chatId}.`, pc_d, s_d, chatId);
 };
 
+/**
+ * Handles the incoming HTTP request.
+ * 
+ * @param {Request} request - The HTTP request object representing the incoming request.
+ * @returns {Promise<Response>} A Promise that resolves to a Response object, which will be returned as the response to the incoming request.
+ */
 async function handleRequest(request) {
 	const secret_token = request.headers.get("X-Telegram-Bot-Api-Secret-Token");
     if (secret_token !== SECRET_TOKEN) {

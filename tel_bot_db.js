@@ -1,5 +1,10 @@
-// @author Mqtth3w https://github.com/Mqtth3w/
-
+/**
+ * @fileoverview This script handle a Telegram support bot to be contacted anonymously.
+ *
+ * @author Mqtth3w https://github.com/Mqtth3w/
+ * @license GPL-3.0+ https://github.com/Mqtth3w/Forwarder-Telegram-bot/blob/main/LICENSE
+ *
+ */
 let suspended = false;
 let susp_info = "Sorry, the service is temporarily suspended.";
 let custom_susp = "";
@@ -12,6 +17,17 @@ let silent_dest = false;
 const user_guide = "https://github.com/Mqtth3w/Forwarder-Telegram-bot/tree/main#user-guide";
 const faq = "https://github.com/Mqtth3w/Forwarder-Telegram-bot/tree/main#faq";
 
+/**
+ * Sends a text message to a specified user via a Telegram bot.
+ *
+ * @param {string} url - The root URL for the Telegram bot API, e.g., `https://api.telegram.org/bot<token>/`.
+ * @param {number|string} cId - The chat ID of the user to send the message to.
+ * @param {string} txt - The text message to be sent.
+ * @param {boolean} [pc=true] - Whether to protect the content of the message. Defaults to true.
+ * @param {boolean} [s=false] - If true, disables notification for the message. Defaults to false.
+ * @param {number|string} [prf] - The chat ID for the profile, used to generate an inline keyboard with a link to the user profile.
+ * @returns {Promise<void>} - This function does not return a value.
+ */
 async function SendMessage(url, cId, txt, pc = true, s = false, prf) {
 	let payload = {
 		chat_id: cId,
@@ -38,6 +54,17 @@ async function SendMessage(url, cId, txt, pc = true, s = false, prf) {
 	}); 
 };
 
+/**
+ * Forwards any type of message to a specified user via a Telegram bot.
+ *
+ * @param {string} url - The root URL for the Telegram bot API, e.g., `https://api.telegram.org/bot<token>/`.
+ * @param {number|string} cId - The chat ID of the user to send the message to.
+ * @param {number|string} fcId - The chat ID of the user who sent the message to be forwarded.
+ * @param {number|string} mId - The message ID of the message to be forwarded.
+ * @param {boolean} [pc=true] - Whether to protect the content of the message. Defaults to true.
+ * @param {boolean} [s=false] - If true, disables notification for the message. Defaults to false.
+ * @returns {Promise<void>} - This function does not return a value.
+ */
 async function ForwardMessage(url, cId, fcId, mId, pc = true, s = false) {
 	await fetch(url + 'forwardMessage', {
 		method: "POST",
@@ -54,6 +81,17 @@ async function ForwardMessage(url, cId, fcId, mId, pc = true, s = false) {
 	});
 };
 
+/**
+ * Sends a formatted message with user details to a specified destination.
+ * The function splits the users into batches of 10 to avoid message length limitations.
+ *
+ * @param {string} url - The root URL for the Telegram bot API, e.g., `https://api.telegram.org/bot<token>/`.
+ * @param {number|string} dest - The chat ID of the destination where the message will be sent.
+ * @param {Array<Object>} res - An array of user objects containing user information to be formatted and sent.
+ * @param {boolean} [pc=true] - Whether to protect the content of the message. Defaults to true.
+ * @param {boolean} [s=false] - If true, disables notification for the message. Defaults to false.
+ * @returns {Promise<void>} - This function does not return a value.
+ */
 async function SendFormatMessage(url, dest, res, pc = true, s = false) {
 	if (res.length === 0) {
 		await SendMessage(url, dest, "No users.", pc_dest);
@@ -84,6 +122,18 @@ async function SendFormatMessage(url, dest, res, pc = true, s = false) {
     }
 };
 
+/**
+ * Sends a broadcast message to a list of users, handling errors and avoiding rate limits.
+ * If an error occurs while sending a message to a user, it sends an error notification to the specified destination.
+ *
+ * @param {string} url - The root URL for the Telegram bot API, e.g., `https://api.telegram.org/bot<token>/`.
+ * @param {number|string} dest - The chat ID of the destination where the error message will be sent in case of an issue.
+ * @param {string} msg - The message to be sent to each user.
+ * @param {Array<number|string>} users - An array of user IDs to whom the message will be sent.
+ * @param {boolean} [pc=true] - Whether to protect the content of the message. Defaults to true.
+ * @param {boolean} [s=false] - If true, disables notification for the message. Defaults to false.
+ * @returns {Promise<void>} - This function does not return a value.
+ */
 async function sendBroadcastMessage(url, dest, msg, users, pc = true, s = false) {
     for (const userId of users) {
         try {
@@ -95,12 +145,26 @@ async function sendBroadcastMessage(url, dest, msg, users, pc = true, s = false)
     }
 };
 
-async function SendMedia(url, msg, dest, chatId, pc = true, pc_d = false, s = false, s_d = false) {
+/**
+ * Sends a media message (photo, sticker, document, video, animation, audio, voice, location, or contact) to a specified chat.
+ * The function determines the media type based on the message structure and sends the appropriate media type.
+ * 
+ * @param {string} url - The root URL for the Telegram bot API, e.g., `https://api.telegram.org/bot<token>/`.
+ * @param {Object} msg - The message object containing the media or data to be sent.
+ * @param {number|string} dest - The chat ID of the destination where the status message will be sent.
+ * @param {number|string} cId - The chat ID of the user who will receive the media.
+ * @param {boolean} [pc=true] - Whether to protect the content of the message (user side). Defaults to true.
+ * @param {boolean} [pc_d=false] - Whether to protect the content of the status message (dest side). Defaults to false.
+ * @param {boolean} [s=false] - If true, disables notification for the media message (user side). Defaults to false.
+ * @param {boolean} [s_d=false] - If true, disables notification for the status message (dest side). Defaults to false.
+ * @returns {Promise<void>} - This function does not return a value.
+ */
+async function SendMedia(url, msg, dest, cId, pc = true, pc_d = false, s = false, s_d = false) {
 	let method = "";
 	let method2 = "";
 	let methodr = "";
 	let fileId = "";
-	let payload = { chat_id: chatId, protect_content: pc, disable_notification: s };
+	let payload = { chat_id: cId, protect_content: pc, disable_notification: s };
 	if (msg.photo) {
 		method = "sendPhoto";
 		method2 = "photo";
@@ -172,9 +236,17 @@ async function SendMedia(url, msg, dest, chatId, pc = true, pc_d = false, s = fa
 		},
 		body: JSON.stringify(payload),
 	});
-	await SendMessage(url, dest, `${methodr} sent to ${chatId}.`, pc_d, s_d, chatId);
+	await SendMessage(url, dest, `${methodr} sent to ${cId}.`, pc_d, s_d, cId);
 };
 
+/**
+ * Handles incoming requests to the Cloudflare Worker.
+ * This function processes the HTTP request and responds accordingly.
+ * 
+ * @param {Request} request - The HTTP request object representing the incoming request.
+ * @param {ExecutionContext} env - The environment object containing runtime information, such as bindings.
+ * @returns {Promise<Response>} A Promise that resolves to a Response object, which will be returned as the response to the incoming request.
+ */
 export default {
 	async fetch(request, env) {
 		const secret_token = request.headers.get("X-Telegram-Bot-Api-Secret-Token");
