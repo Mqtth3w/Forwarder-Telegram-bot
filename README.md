@@ -55,19 +55,21 @@ To deploy it, follow these steps:
 ### DESTINATION
 - Start the bot.
 - To reply do reply at the message with the ID of the sender. You can reply with text, photo, video, audio, voice, animation, sticker, contact, document and location.
-- `/block <Sender ID>` block the sender. <!-- &lt;replace with senderID&gt; -->
-- `/unblock <Sender ID>` unblock the sender.
-- `/suspend <Optionally insert here a custom sentence>` suspend the service. Means that when a user uses the bot, they will receive a message: "Sorry, the service is temporarily suspended. [+custom sentence]". So the DESTINATION will not be informed. Example: `/suspend I'm in vacation` then the user will recive "Sorry, the service is temporarily suspended. I'm in vacation". You can also use the suspend command to change the custom sentence, sending it again with a new sentence.
-- `/unsuspend` unsuspend the service. When you unsuspend, you clear the custom sentence.
+- `/block <Sender ID>` blocks the sender. <!-- &lt;replace with senderID&gt; -->
+- `/unblock <Sender ID>` unblocks the sender.
+- `/suspend <Optionally insert here a custom sentence>` suspends the service. Means that when a user uses the bot, they will receive a message: "Sorry, the service is temporarily suspended. [+custom sentence]". So the DESTINATION will not be informed. Example: `/suspend I'm in vacation` then the user will recive "Sorry, the service is temporarily suspended. I'm in vacation". You can also use the suspend command to change the custom sentence, sending it again with a new sentence.
+- `/unsuspend` unsuspends the service. When you unsuspend, you clear the custom sentence.
 - `/help` gives you a link to this User guide and FAQ.
 - `/blocked` gives you the list of users you blocked (their IDs). This may be useful because if you update your bot's code, the blocked list will reset and start from scratch (limitation solved in the DB version).
-- `/pin <User ID>` set the user with the specified ID as default receiver. It means if you send a message to the bot (not a command) it will be sent automatically to the pinned user except if you use the standard reply then you will reply the specified user.
-- `/unpin` unpin the pinned user.
-- `/show <User ID>` show you the profile of the user with the specified ID. It works only if the user has already started/used the bot. It doesn't give you an answer if the user doesn't exist or if the previous condition is not satisfied.
-- `/silentuser` negate the silent_user variable and show its current value. If it is true users will receive a notification with no sound.
-- `/silentdest` same of the previous but for the DESTINATION.
+- `/pin <User ID>` sets the user as default receiver. It means if you send a message to the bot (not a command) it will be sent automatically to the pinned user except if you use the standard reply then you will reply the specified user.
+- `/unpin` unpins the pinned user.
+- `/show <User ID>` shows you the profile of the user. It works only if the user has already started/used the bot. It doesn't give you an answer if the user doesn't exist or if the previous condition is not satisfied.
+- `/pcuser` negates and show you the protect content state for the users. If it is true protects the contents of the sent message from forwarding and saving. The default value is true.
+- `/pcdest` is equal to the previous but for the DESTINATION. In this case the default value is false.
+- `/silentuser` negates and show you the disable notification state for the users. If it is true users will receive notifications with no sound. The dafault value is false.
+- `/silentdest` is equal to the previous but for the DESTINATION.
 
-# DB version
+# DB version!
 [This](./README2.md) version is based on a database and have more commands.
 
 # FAQ
@@ -83,4 +85,5 @@ Donate to support my projects.
 - Crypto & others: Use the command `/support` in the [bot](https://t.me/Mqtth3w_support_bot).
 - [Sponsor](https://github.com/sponsors/Mqtth3w).
 - [Buy me a pizza](https://buymeacoffee.com/mqtth3w).
+- [liberapay](https://liberapay.com/mqtth3w).
 
