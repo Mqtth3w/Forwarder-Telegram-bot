@@ -4,7 +4,7 @@ let suspended = false;
 let susp_info = "Sorry, the service is temporarily suspended.";
 let custom_susp = "";
 let pinned_usr = "";
-const nick = "Mqtth3w"; // Change it with your nickname
+const nick = "Mqtth3w"; // Change it with your nickname (NOT something linkable to you or your identity)
 let pc_user = true; // protect_content: If true protects the contents
 let pc_dest = false; // of the sent message from forwarding and saving
 let silent_user = false; // If true the user will receive the notifications without sound
@@ -384,7 +384,7 @@ export default {
 							await SendMessage(url, env.DESTINATION, username ? `${info} @${username} ${extraInfo} typed /help.` : `${info} ${extraInfo} typed /help.`, pc_dest, silent_dest, chatId);
 						}
 						else {
-							await SendMessage(url, chatId, "Message sent.", pc_user, silent_user);
+							await SendMessage(url, chatId, `Message sent to ${nick}.`, pc_user, silent_user);
 							await ForwardMessage(url, env.DESTINATION, chatId, payload.message.message_id, pc_dest, silent_dest);
 							await SendMessage(url, env.DESTINATION, username ? `${info} @${username} ${extraInfo}.` : `${info} ${extraInfo}.`, pc_dest, silent_dest, chatId);
 						}
