@@ -5,8 +5,8 @@ let susp_info = "Sorry, the service is temporarily suspended.";
 let custom_susp = "";
 let pinned_usr = "";
 const nick = "Mqtth3w"; // Change it with your nickname
-const pc_user = true; // protect_content: If true protects the contents
-const pc_dest = false; // of the sent message from forwarding and saving
+let pc_user = true; // protect_content: If true protects the contents
+let pc_dest = false; // of the sent message from forwarding and saving
 let silent_user = false; // If true the user will receive the notifications without sound
 let silent_dest = false;
 const user_guide = "https://github.com/Mqtth3w/Forwarder-Telegram-bot/tree/main#user-guide";
@@ -308,13 +308,25 @@ export default {
 							await SendMessage(url, env.DESTINATION, "You must provide a message to be broadcasted.", pc_dest, silent_dest);
 						}
 					}
+					else if (command === "/pcuser") {
+						pc_user = !pc_user;
+						let msg = pc_user ? `User content protection is enabled.` : `User content protection is disabled.`;
+						await SendMessage(url, env.DESTINATION, msg, pc_dest, silent_dest);
+					}
+					else if (command === "/pcdest") {
+						pc_dest = !pc_dest;
+						let msg = pc_dest ? `Destionation content protection is enabled.` : `Destination content protection is disabled.`;
+						await SendMessage(url, env.DESTINATION, msg, pc_dest, silent_dest);
+					}
 					else if (command === "/silentuser") {
 						silent_user = !silent_user;
-						await SendMessage(url, env.DESTINATION, `The silent_user option has been negated. Current silent_user value: ${silent_user}.`, pc_dest, silent_dest);
+						let msg = silent_user ? `User sound notifications are disabled.` : `User sound notifications are enabled.`;
+						await SendMessage(url, env.DESTINATION, msg, pc_dest, silent_dest);
 					}
 					else if (command === "/silentdest") {
 						silent_dest = !silent_dest;
-						await SendMessage(url, env.DESTINATION, `The silent_dest option has been negated. Current silent_dest value: ${silent_dest}.`, pc_dest, silent_dest);
+						let msg = silent_user ? `Destination sound notifications are disabled.` : `Destination sound notifications are enabled.`;
+						await SendMessage(url, env.DESTINATION, msg, pc_dest, silent_dest);
 					}
 					else if (payload.message.entities && payload.message.entities.length > 0 && payload.message.entities[0].type === "bot_command") { 
 						await SendMessage(url, env.DESTINATION, `Hey chief! Invalid command, check the User guide at ${user_guide}.`, pc_dest, silent_dest);
