@@ -317,7 +317,7 @@ async function handleRequest(request) {
 				}
 				else if (command === "/silentdest") {
 					silent_dest = !silent_dest;
-					let msg = silent_user ? `Destination sound notifications are disabled.` : `Destination sound notifications are enabled.`;
+					let msg = silent_dest ? `Destination sound notifications are disabled.` : `Destination sound notifications are enabled.`;
 					await SendMessage(DESTINATION, msg, pc_dest, silent_dest);
 				}
 				else if (payload.message.entities && payload.message.entities.length > 0 && payload.message.entities[0].type === "bot_command") { 
