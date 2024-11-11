@@ -61,7 +61,7 @@ https://t.me/Mqtth3w_support_bot
 - `/broadcast <Your message>` broadcast the message to all the users in the DB. You must provide a message.
 
 # Light version
-This [tel_bot.js](./tel_bot.js) version doesn't have a database but you still be able to use almost all features by setting up them in the code.
+This [tel_bot.js](./tel_bot.js) version doesn't have a database but you still be able to use almost all the functionalities by changing the state variables in the code.
 
 # FAQ
 - Why the sender ID? Because it is an unique identifier that never changes for the user (until deletion). It is like a primary key.
