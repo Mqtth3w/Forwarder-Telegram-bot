@@ -5,17 +5,19 @@
  * @license GPL-3.0+ https://github.com/Mqtth3w/Forwarder-Telegram-bot/blob/main/LICENSE
  *
  */
-let suspended = false;
+// "Const"
+const nick = "Mqtth3w"; // Change it with your nickname (NOT something linkable to you or your identity)
 let susp_info = "Sorry, the service is temporarily suspended.";
+const user_guide = "https://github.com/Mqtth3w/Forwarder-Telegram-bot/tree/main#user-guide";
+const faq = "https://github.com/Mqtth3w/Forwarder-Telegram-bot/tree/main#faq";
+// Default state
+let suspended = false;
 let custom_susp = "";
 let pinned_usr = "";
-const nick = "Mqtth3w"; // Change it with your nickname (NOT something linkable to you or your identity)
 let pc_user = true; // protect_content: If true protects the contents
 let pc_dest = false; // of the sent message from forwarding and saving
 let silent_user = false; // If true the user will receive the notifications without sound
 let silent_dest = false;
-const user_guide = "https://github.com/Mqtth3w/Forwarder-Telegram-bot/tree/main#user-guide";
-const faq = "https://github.com/Mqtth3w/Forwarder-Telegram-bot/tree/main#faq";
 
 /**
  * Sends a text message to a specified user via a Telegram bot.
@@ -104,14 +106,14 @@ async function SendFormatMessage(url, dest, res, pc = true, s = false) {
 		const user = res[i];
 		let username = user.username ? `@${user.username}` : ``;
 		total++;
-		message += `ID: ${user.id}\n` + 
-			`name: ${user.name}\n` + 
-            `surname: ${user.surname}\n` + 
-            `username: ${username}\n` + 
-            `start_date: ${user.start_date}\n` + 
-            `isblocked: ${user.isblocked}\n` + 
-			`language_code: ${user.language_code}\n` + 
-			`is_bot: ${user.is_bot}\n\n`;
+		message += `ID: ${user.id}\n
+			name: ${user.name}\n 
+            surname: ${user.surname}\n
+            username: ${username}\n
+            start_date: ${user.start_date}\n 
+            isblocked: ${user.isblocked}\n
+			language_code: ${user.language_code}\n 
+			is_bot: ${user.is_bot}\n\n`;
 		if ((total % batchSize === 0) || (i === res.length - 1)) {
 			if (i === res.length - 1) {
 				message += `total: ${total}.`;
@@ -240,8 +242,60 @@ async function SendMedia(url, msg, dest, cId, pc = true, pc_d = false, s = false
 };
 
 /**
+ * Get the current state from the database. If the state does not exist, insert the default state.
+ * 
+ * @param {string} url - The root URL for the Telegram bot API, e.g., `https://api.telegram.org/bot<token>/`.
+ * @param {object} db - The database connection object.
+ * @param {number|string} dest - The chat ID of the destination where the error message will be sent in case of an issue.
+ * @param {boolean} [pc=false] - Whether to protect the content of the error message. Defaults to false.
+ * @param {boolean} [s=false] - Whether to sende the message with no sound. Defaults to false.
+ * @returns {Promise<void>} - This function does not return a value.
+ */
+async function getCurrentState(url, db, dest, pc = false, s = false) {
+    try {
+        const { results } = await db.prepare("SELECT * FROM state").all();
+        if (results && results.length === 0) {
+            await db.prepare(`
+                INSERT INTO state (suspended, custom_susp, pinned_usr, pc_user, pc_dest, silent_user, silent_dest)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+            `).bind(suspended.toString(), custom_susp, pinned_usr, pc_user.toString(), pc_dest.toString(), silent_user.toString(), silent_dest.toString()).run();
+        }
+		else {
+            suspended = results[0]?.suspended === "true" ? true : (results[0]?.suspended === "false" ? false : suspended);
+			custom_susp = results[0]?.custom_susp ?? custom_susp;
+			pinned_usr = results[0]?.pinned_usr ?? pinned_usr;
+			pc_user = results[0]?.pc_user === "true" ? true : (results[0]?.pc_user === "false" ? false : pc_user);
+			pc_dest = results[0]?.pc_dest === "true" ? true : (results[0]?.pc_dest === "false" ? false : pc_dest);
+			silent_user = results[0]?.silent_user === "true" ? true : (results[0]?.silent_user === "false" ? false : silent_user);
+			silent_dest = results[0]?.silent_dest === "true" ? true : (results[0]?.silent_dest === "false" ? false : silent_dest);
+        }
+    } catch (err) {
+        await SendMessage(url, dest, `An error occurred while getting the current state: ${err}.`, pc, s);
+    }
+};
+
+/**
+ * Update the current state in the database.
+ * 
+ * @param {string} url - The root URL for the Telegram bot API, e.g., `https://api.telegram.org/bot<token>/`.
+ * @param {object} db - The database connection object.
+ * @param {number|string} dest - The chat ID of the destination where the error message will be sent in case of an issue.
+ * @param {boolean} [pc=false] - Whether to protect the content of the error message. Defaults to false.
+ * @param {boolean} [s=false] - Whether to sende the message with no sound. Defaults to false.
+ * @returns {Promise<void>} - This function does not return a value.
+ */
+async function updateCurrentState(url, db, dest, pc = false, s = false) {
+    try {
+        db.prepare(`UPDATE state
+            SET suspended = ?, custom_susp = ?, pinned_usr = ?, pc_user = ?, pc_dest = ?, silent_user = ?, silent_dest = ?;`
+			).bind(suspended.toString(), custom_susp, pinned_usr, pc_user.toString(), pc_dest.toString(), silent_user.toString(), silent_dest.toString()).run();
+    } catch (err) {
+        await SendMessage(url, dest, `An error occurred while updating the current state: ${err}.`, pc, s);
+    }
+};
+
+/**
  * Handles incoming requests to the Cloudflare Worker.
- * This function processes the HTTP request and responds accordingly.
  * 
  * @param {Request} request - The HTTP request object representing the incoming request.
  * @param {ExecutionContext} env - The environment object containing runtime information, such as bindings.
@@ -257,6 +311,7 @@ export default {
 			const payload = await request.json();
 			if ('message' in payload) {
 				let url = `https://api.telegram.org/bot${env.API_KEY}/`;
+				await getCurrentState(url, env.db, env.DESTINATION, pc_dest, silent_dest);
 				let chatId = payload.message.chat.id.toString();
 				const text = payload.message.text || "";
 				if (chatId === env.DESTINATION) {
@@ -285,8 +340,12 @@ export default {
 					else if (command === "/block") {
 						let infoBlock = text.split(" "); // Check if they are already blocked may be expensive
 						if (infoBlock[1] && Number(infoBlock[1]) > 0) {
-							await env.db.prepare("UPDATE users SET isblocked = ? WHERE id = ?").bind("true", infoBlock[1]).run();
-							await SendMessage(url, env.DESTINATION, `User ${infoBlock[1]} blocked.`, pc_dest, silent_dest, infoBlock[1]);
+							try {
+								await env.db.prepare("UPDATE users SET isblocked = ? WHERE id = ?").bind("true", infoBlock[1]).run();
+								await SendMessage(url, env.DESTINATION, `User ${infoBlock[1]} blocked.`, pc_dest, silent_dest, infoBlock[1]);
+							} catch (err) {
+								await SendMessage(url, env.DESTINATION, `An error occurred while saving the blocked user: ${err}.`, pc_dest, silent_dest, infoBlock[1]);
+							}
 						}
 						else {
 							await SendMessage(url, env.DESTINATION, "Invalid User ID.", pc_dest, silent_dest);
@@ -295,8 +354,12 @@ export default {
 					else if(command === "/unblock") {
 						let infoBlock = text.split(" "); // Check if they are already unblocked may be expensive
 						if (infoBlock[1] && Number(infoBlock[1]) > 0) {
-							await env.db.prepare("UPDATE users SET isblocked = ? WHERE id = ?").bind("false", infoBlock[1]).run();
-							await SendMessage(url, env.DESTINATION, `User ${infoBlock[1]} unblocked.`, pc_dest, silent_dest, infoBlock[1]);
+							try {
+								await env.db.prepare("UPDATE users SET isblocked = ? WHERE id = ?").bind("false", infoBlock[1]).run();
+								await SendMessage(url, env.DESTINATION, `User ${infoBlock[1]} unblocked.`, pc_dest, silent_dest, infoBlock[1]);
+							} catch (err) {
+								await SendMessage(url, env.DESTINATION, `An error occurred while saving the unblocked user: ${err}.`, pc_dest, silent_dest, infoBlock[1]);
+							}
 						}
 						else {
 							await SendMessage(url, env.DESTINATION, "Invalid User ID.", pc_dest, silent_dest);
@@ -311,25 +374,32 @@ export default {
 							custom_susp = "";
 						}
 						suspended = true;
+						await updateCurrentState(url, env.db, env.DESTINATION, pc_dest, silent_dest);
 						await SendMessage(url, env.DESTINATION, "Service suspended.", pc_dest, silent_dest);
 					}
 					else if (command === "/unsuspend") {
 						suspended = false;
 						custom_susp = "";
+						await updateCurrentState(url, env.db, env.DESTINATION, pc_dest, silent_dest);
 						await SendMessage(url, env.DESTINATION, "Service unsuspended.", pc_dest, silent_dest);
 					}
 					else if (command === "/help") {
 						await SendMessage(url, env.DESTINATION, `User guide: ${user_guide}. FAQ: ${faq}.`, pc_dest, silent_dest);
 					}
 					else if (command === "/blocked") {
-						const { results } = await env.db.prepare("SELECT * FROM users WHERE isblocked = ?")
-							.bind("true").all();
-						await SendFormatMessage(url, env.DESTINATION, results, pc_dest, silent_dest);
+						try {
+							const { results } = await env.db.prepare("SELECT * FROM users WHERE isblocked = ?")
+								.bind("true").all();
+							await SendFormatMessage(url, env.DESTINATION, results, pc_dest, silent_dest);
+						} catch (err) {
+							await SendMessage(url, env.DESTINATION, `An error occurred while getting the blocked users: ${err}.`, pc_dest, silent_dest);
+						}
 					}
 					else if (command === "/pin") {
 						let infoBlock = text.split(" ");
 						if (infoBlock[1] && Number(infoBlock[1]) > 0) {
 							pinned_usr = infoBlock[1];
+							await updateCurrentState(url, env.db, env.DESTINATION, pc_dest, silent_dest);
 							await SendMessage(url, env.DESTINATION, `User ${pinned_usr} pinned.`, pc_dest, silent_dest, pinned_usr);
 						}
 						else {
@@ -337,8 +407,10 @@ export default {
 						}
 					}
 					else if (command === "/unpin") {
-						await SendMessage(url, env.DESTINATION, `User ${pinned_usr} unpinned.`, pc_dest, silent_dest, pinned_usr);
+						let msg = `User ${pinned_usr} unpinned.`;
 						pinned_usr = "";
+						await updateCurrentState(url, env.db, env.DESTINATION, pc_dest, silent_dest);
+						await SendMessage(url, env.DESTINATION, msg, pc_dest, silent_dest, pinned_usr);
 					}
 					else if (command === "/show") {
 						let infoBlock = text.split(" ");
@@ -350,14 +422,22 @@ export default {
 						}
 					}
 					else if (command === "/history") {
-						const { results } = await env.db.prepare("SELECT * FROM users").all();
-						await SendFormatMessage(url, env.DESTINATION, results, pc_dest, silent_dest);
+						try {
+							const { results } = await env.db.prepare("SELECT * FROM users").all();
+							await SendFormatMessage(url, env.DESTINATION, results, pc_dest, silent_dest);
+						} catch (err) {
+							await SendMessage(url, env.DESTINATION, `An error occurred while getting the users: ${err}.`, pc_dest, silent_dest);
+						}
 					}
 					else if (command === "/delete") {
 						let infoBlock = text.split(" ");
 						if (infoBlock[1] && Number(infoBlock[1]) > 0) {
-							await env.db.prepare("DELETE FROM users WHERE id = ?").bind(infoBlock[1]).run();
-							await SendMessage(url, env.DESTINATION, `User ${infoBlock[1]} deleted (if exist).`, pc_dest, silent_dest, infoBlock[1]);
+							try {
+								await env.db.prepare("DELETE FROM users WHERE id = ?").bind(infoBlock[1]).run();
+								await SendMessage(url, env.DESTINATION, `User ${infoBlock[1]} deleted (if exist).`, pc_dest, silent_dest, infoBlock[1]);
+							} catch (err) {
+								await SendMessage(url, env.DESTINATION, `An error occurred while the user delete: ${err}.`, pc_dest, silent_dest, infoBlock[1]);
+							}
 						}
 						else {
 							await SendMessage(url, env.DESTINATION, "Invalid User ID.", pc_dest, silent_dest);
@@ -367,13 +447,17 @@ export default {
 						let firstSpaceIndex = text.indexOf(' ');
 						if (firstSpaceIndex !== -1) {
 							let msg = text.slice(firstSpaceIndex + 1);
-							const { results } = await env.db.prepare("SELECT id FROM users").all();
-							if (results.length > 0) {
-								await sendBroadcastMessage(url, env.DESTINATION, msg, results.map(row => row.id));
-								await SendMessage(url, env.DESTINATION, "Message broadcasted.", pc_dest, silent_dest);
-							}
-							else {
-								await SendMessage(url, env.DESTINATION, "There aren't users in your DB.", pc_dest, silent_dest);
+							try {
+								const { results } = await env.db.prepare("SELECT id FROM users").all();
+								if (results.length > 0) {
+									await sendBroadcastMessage(url, env.DESTINATION, msg, results.map(row => row.id));
+									await SendMessage(url, env.DESTINATION, "Message broadcasted.", pc_dest, silent_dest);
+								}
+								else {
+									await SendMessage(url, env.DESTINATION, "There aren't users in your DB.", pc_dest, silent_dest);
+								}
+							} catch (err) {
+								await SendMessage(url, env.DESTINATION, `An error occurred while getting the users: ${err}.`, pc_dest, silent_dest);
 							}
 						}
 						else {
@@ -382,21 +466,25 @@ export default {
 					}
 					else if (command === "/pcuser") {
 						pc_user = !pc_user;
+						await updateCurrentState(url, env.db, env.DESTINATION, pc_dest, silent_dest);
 						let msg = pc_user ? `User content protection is enabled.` : `User content protection is disabled.`;
 						await SendMessage(url, env.DESTINATION, msg, pc_dest, silent_dest);
 					}
 					else if (command === "/pcdest") {
 						pc_dest = !pc_dest;
+						await updateCurrentState(url, env.db, env.DESTINATION, pc_dest, silent_dest);
 						let msg = pc_dest ? `Destionation content protection is enabled.` : `Destination content protection is disabled.`;
 						await SendMessage(url, env.DESTINATION, msg, pc_dest, silent_dest);
 					}
 					else if (command === "/silentuser") {
 						silent_user = !silent_user;
+						await updateCurrentState(url, env.db, env.DESTINATION, pc_dest, silent_dest);
 						let msg = silent_user ? `User sound notifications are disabled.` : `User sound notifications are enabled.`;
 						await SendMessage(url, env.DESTINATION, msg, pc_dest, silent_dest);
 					}
 					else if (command === "/silentdest") {
 						silent_dest = !silent_dest;
+						await updateCurrentState(url, env.db, env.DESTINATION, pc_dest, silent_dest);
 						let msg = silent_dest ? `Destination sound notifications are disabled.` : `Destination sound notifications are enabled.`;
 						await SendMessage(url, env.DESTINATION, msg, pc_dest, silent_dest);
 					}
@@ -416,11 +504,10 @@ export default {
 						await SendMessage(url, env.DESTINATION, `Hey chief! Invalid command, check the User guide at ${user_guide}.`, pc_dest, silent_dest);
 					}
 				}
-				else { 
-					const { results } = await env.db.prepare(
-					  "SELECT isblocked FROM users WHERE id = ?").bind(chatId).all();
+				else {
+					const { results } = await env.db.prepare("SELECT isblocked FROM users WHERE id = ?").bind(chatId).all();
 					let isBlocked = "false";
-					if (results.length > 0) {
+					if (results && results.length > 0) {
 						isBlocked = results[0].isblocked;
 					}
 					if (isBlocked === "false" && suspended) {
@@ -439,17 +526,20 @@ export default {
 						const is_bot = payload.message.from.is_bot.toString();
 						let extraInfo = `language_code:${lang} is_bot:${is_bot}`;
 						if (text === "/start") {
-							const { results } = await env.db.prepare("SELECT * FROM users WHERE id = ?")
-								.bind(chatId).all();
-							if (results.length === 0) {
-								await env.db.prepare("INSERT INTO users (id, name, surname, username, start_date, isblocked, language_code, is_bot) VALUES (?,?,?,?,?,?,?,?)")
-									.bind(chatId, first_name, last_name || "", username || "", (new Date()).toISOString(), "false", lang, is_bot).run();
-								await SendMessage(url, chatId, `Hello, ${user}!`, pc_user, silent_user);
+							try {
+								const { results } = await env.db.prepare("SELECT * FROM users WHERE id = ?").bind(chatId).all();
+								if (results.length === 0) {
+									await env.db.prepare("INSERT INTO users (id, name, surname, username, start_date, isblocked, language_code, is_bot) VALUES (?,?,?,?,?,?,?,?)")
+										.bind(chatId, first_name, last_name || "", username || "", (new Date()).toISOString(), "false", lang, is_bot).run();
+									await SendMessage(url, chatId, `Hello, ${user}!`, pc_user, silent_user);
+								}
+								else {
+									await SendMessage(url, chatId, `Welcome back, ${user}!`, pc_user, silent_user);
+								}
+								await SendMessage(url, env.DESTINATION, username ? `${info} @${username} ${extraInfo} started the bot.`	: `${info} ${extraInfo} started the bot.`, pc_dest, silent_dest, chatId);
+							} catch (err) {
+								await SendMessage(url, env.DESTINATION, `An error occurred while saving the new user: ${err}.`, pc_dest, silent_dest, chatId);
 							}
-							else {
-								await SendMessage(url, chatId, `Welcome back, ${user}!`, pc_user, silent_user);
-							}
-							await SendMessage(url, env.DESTINATION, username ? `${info} @${username} ${extraInfo} started the bot.`	: `${info} ${extraInfo} started the bot.`, pc_dest, silent_dest, chatId);
 						}
 						else if (text === "/help") {
 							await SendMessage(url, chatId, `This bot forward all messages you send to ${nick}. Through this bot, ${nick} can reply you.`, pc_user, silent_user);
