@@ -4,7 +4,7 @@ The version [tel_bot_db.js](./tel_bot_db.js) uses the Cloudflare D1 service, so 
 ## How to deploy it (assuming that you have already deployed the normal version)
 - Go to workers & pages then to D1 SQL databases.
 - Create a new database. the name doesn't really matter. Instead could be useful to set a location near to "you".
-- Select the database and create a new table called "users" with the following fileds and types:
+- Select the database and create a new table called "users" with the following columns and types:
     - id: text. Set it as primary key.
     - name: text.
     - surname: text.
@@ -13,6 +13,14 @@ The version [tel_bot_db.js](./tel_bot_db.js) uses the Cloudflare D1 service, so 
     - isblocked: text.
     - language_code: text.
     - is_bot: text.
+- Create another table called "state" with the following columns and types:
+    - suspended: text.
+    - custom_susp: text.
+    - pinned_usr: text.
+    - pc_user: text.
+    - pc_dest: text.
+    - silent_user: text.
+    - silent_dest: text.
 - Use the code of [tel_bot_db.js](./tel_bot_db.js) for your worker.
 - With the worker selected, go to settings and then bindings. Click add, click D1 database, choose the variable name "db" and select your database by the name you set previously. Then deploy it.
 
