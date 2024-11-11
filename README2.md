@@ -26,7 +26,7 @@ It uses the Cloudflare D1 service. The database has a free plan but it have some
 
 # Support
 Donate to support my projects. 
-- Crypto: Use the command `/support` in the [bot](https://t.me/Mqtth3w_support_bot).
+- Crypto & others: Use the command `/support` in the [bot](https://t.me/Mqtth3w_support_bot).
 - [Sponsor](https://github.com/sponsors/Mqtth3w).
 - [Buy me a pizza](https://buymeacoffee.com/mqtth3w).
 - [liberapay](https://liberapay.com/mqtth3w).
