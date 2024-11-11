@@ -245,8 +245,8 @@ async function handleRequest(request) {
 					await SendMessage(DESTINATION, `User guide: ${user_guide}. FAQ: ${faq}.`, pc_dest, silent_dest);
 				}
 				else if (command === "/blocked") {
-					await SendMessage(DESTINATION, `Edit it from the code because the worker is stateless and 
-						after some time it will clear all the state variable edits. Otherwise you can use the DB version.`, pc_dest, silent_dest);
+					let blocked_str = 'blocked = ["' + blocked.join('", "') + '"]';
+					await SendMessage(DESTINATION, blocked_str, pc_dest, silent_dest);
 				}
 				else if (command === "/pin") {
 					await SendMessage(DESTINATION, `Edit it from the code because the worker is stateless and 
