@@ -14,20 +14,22 @@
 addEventListener("fetch", event => {
 	event.respondWith(handleRequest(event.request));
 });
-
-let blocked = ["-1"]
-let suspended = false;
-let susp_info = "Sorry, the service is temporarily suspended.";
-let custom_susp = "";
-let pinned_usr = ""; 
+// "Const" 
 const nick = "Mqtth3w"; // Change it with your nickname (NOT something linkable to you or your identity)
-let pc_user = true; // protect_content: If true protects the contents
-let pc_dest = false; // of the sent message from forwarding and saving
-let silent_user = false; // If true the user will receive the notifications without sound
-let silent_dest = false;
+const susp_info = "Sorry, the service is temporarily suspended.";
 let url = `https://api.telegram.org/bot${API_KEY}/`;
 const user_guide = "https://github.com/Mqtth3w/Forwarder-Telegram-bot/tree/main#user-guide";
 const faq = "https://github.com/Mqtth3w/Forwarder-Telegram-bot/tree/main#faq";
+// State "Const" 
+const blocked = ["-1"]
+const suspended = false;
+const custom_susp = "";
+const pinned_usr = ""; 
+const pc_user = true; // protect_content: If true protects the contents
+const pc_dest = false; // of the sent message from forwarding and saving
+const silent_user = false; // If true the user will receive the notifications without sound
+const silent_dest = false;
+
 
 /**
  * Sends a text message to a specified user via a Telegram bot.
@@ -224,72 +226,35 @@ async function handleRequest(request) {
 					await SendMessage(DESTINATION, "Hello, chief!", pc_dest, silent_dest);
 				}
 				else if (command === "/block") {
-					let infoBlock = text.split(" ");
-					if (infoBlock[1] && Number(infoBlock[1]) > 0) {
-						if (!blocked.includes(infoBlock[1])) { // Not already blocked
-							blocked.push(infoBlock[1]);
-							await SendMessage(DESTINATION, `User ${infoBlock[1]} blocked.`, pc_dest, silent_dest, infoBlock[1]);
-						}
-						else {
-							await SendMessage(DESTINATION, "User already blocked.", pc_dest, silent_dest);
-						}
-					}
-					else {
-						await SendMessage(DESTINATION, "Invalid User ID.", pc_dest, silent_dest);
-					}
+					await SendMessage(DESTINATION, `Edit it from the code because the worker is stateless and 
+						after some time it will clear all the state variable edits. Otherwise you can use the DB version.`, pc_dest, silent_dest);
 				}
 				else if(command === "/unblock") {
-					let infoBlock = text.split(" ");
-					if (infoBlock[1] && Number(infoBlock[1]) > 0) {
-						let index = blocked.indexOf(infoBlock[1]);
-						if (index > -1) { // Only splice array when item is found
-							blocked.splice(index, 1); // 2nd parameter means remove one item only
-							await SendMessage(DESTINATION, `User ${infoBlock[1]} unblocked.`, pc_dest, silent_dest, infoBlock[1]);
-						}
-						else {
-							await SendMessage(DESTINATION, "Hey chief, the user is not blocked.", pc_dest, silent_dest);
-						}
-					}
-					else {
-						await SendMessage(DESTINATION, "Invalid User ID.", pc_dest, silent_dest);
-					}
+					await SendMessage(DESTINATION, `Edit it from the code because the worker is stateless and 
+						after some time it will clear all the state variable edits. Otherwise you can use the DB version.`, pc_dest, silent_dest);
 				}
 				else if (command === "/suspend") {
-					let firstSpaceIndex = text.indexOf(' ');
-					if (firstSpaceIndex !== -1) {
-						custom_susp = text.slice(firstSpaceIndex + 1);
-					}
-					else {
-						custom_susp = "";
-					}
-					suspended = true;
-					await SendMessage(DESTINATION, "Service suspended.", pc_dest, silent_dest);
+					await SendMessage(DESTINATION, `Edit it from the code because the worker is stateless and 
+						after some time it will clear all the state variable edits. Otherwise you can use the DB version.`, pc_dest, silent_dest);
 				}
 				else if (command === "/unsuspend") {
-					suspended = false;
-					custom_susp = "";
-					await SendMessage(DESTINATION, "Service unsuspended.", pc_dest, silent_dest);
+					await SendMessage(DESTINATION, `Edit it from the code because the worker is stateless and 
+						after some time it will clear all the state variable edits. Otherwise you can use the DB version.`, pc_dest, silent_dest);
 				}
 				else if (command === "/help") {
 					await SendMessage(DESTINATION, `User guide: ${user_guide}. FAQ: ${faq}.`, pc_dest, silent_dest);
 				}
 				else if (command === "/blocked") {
-					let blocked_str = 'blocked = ["' + blocked.join('", "') + '"]';
-					await SendMessage(DESTINATION, blocked_str, pc_dest, silent_dest);
+					await SendMessage(DESTINATION, `Edit it from the code because the worker is stateless and 
+						after some time it will clear all the state variable edits. Otherwise you can use the DB version.`, pc_dest, silent_dest);
 				}
 				else if (command === "/pin") {
-					let infoBlock = text.split(" ");
-					if (infoBlock[1] && Number(infoBlock[1]) > 0) {
-						pinned_usr = infoBlock[1];
-						await SendMessage(DESTINATION, `User ${pinned_usr} pinned.`, pc_dest, silent_dest, pinned_usr);
-					}
-					else {
-						await SendMessage(DESTINATION, "Invalid User ID.", pc_dest, silent_dest);
-					}
+					await SendMessage(DESTINATION, `Edit it from the code because the worker is stateless and 
+						after some time it will clear all the state variable edits. Otherwise you can use the DB version.`, pc_dest, silent_dest);
 				}
 				else if (command === "/unpin") {
-					await SendMessage(DESTINATION, `User ${pinned_usr} unpinned.`, pc_dest, silent_dest, pinned_usr);
-					pinned_usr = "";
+					await SendMessage(DESTINATION, `Edit it from the code because the worker is stateless and 
+						after some time it will clear all the state variable edits. Otherwise you can use the DB version.`, pc_dest, silent_dest);
 				}
 				else if (command === "/show") {
 					let infoBlock = text.split(" ");
@@ -301,24 +266,20 @@ async function handleRequest(request) {
 					}
 				}
 				else if (command === "/pcuser") {
-					pc_user = !pc_user;
-					let msg = pc_user ? `User content protection is enabled.` : `User content protection is disabled.`;
-					await SendMessage(DESTINATION, msg, pc_dest, silent_dest);
+					await SendMessage(DESTINATION, `Edit it from the code because the worker is stateless and 
+						after some time it will clear all the state variable edits. Otherwise you can use the DB version.`, pc_dest, silent_dest);
 				}
 				else if (command === "/pcdest") {
-					pc_dest = !pc_dest;
-					let msg = pc_dest ? `Destionation content protection is enabled.` : `Destination content protection is disabled.`;
-					await SendMessage(DESTINATION, msg, pc_dest, silent_dest);
+					await SendMessage(DESTINATION, `Edit it from the code because the worker is stateless and 
+						after some time it will clear all the state variable edits. Otherwise you can use the DB version.`, pc_dest, silent_dest);
 				}
 				else if (command === "/silentuser") {
-					silent_user = !silent_user;
-					let msg = silent_user ? `User sound notifications are disabled.` : `User sound notifications are enabled.`;
-					await SendMessage(DESTINATION, msg, pc_dest, silent_dest);
+					await SendMessage(DESTINATION, `Edit it from the code because the worker is stateless and 
+						after some time it will clear all the state variable edits. Otherwise you can use the DB version.`, pc_dest, silent_dest);
 				}
 				else if (command === "/silentdest") {
-					silent_dest = !silent_dest;
-					let msg = silent_dest ? `Destination sound notifications are disabled.` : `Destination sound notifications are enabled.`;
-					await SendMessage(DESTINATION, msg, pc_dest, silent_dest);
+					await SendMessage(DESTINATION, `Edit it from the code because the worker is stateless and 
+						after some time it will clear all the state variable edits. Otherwise you can use the DB version.`, pc_dest, silent_dest);
 				}
 				else if (payload.message.entities && payload.message.entities.length > 0 && payload.message.entities[0].type === "bot_command") { 
 					await SendMessage(DESTINATION, `Hey chief! Invalid command, check the User guide at ${user_guide}.`, pc_dest, silent_dest);
