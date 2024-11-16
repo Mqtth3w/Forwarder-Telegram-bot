@@ -100,23 +100,27 @@ async function SendFormatMessage(url, dest, res, pc = true, s = false) {
 		return;
 	}
 	let total = 0;
+	let total_blocked = 0;
 	let message = "";
 	const batchSize = 10;
 	for (let i = 0; i < res.length; i++) {
 		const user = res[i];
 		let username = user.username ? `@${user.username}` : ``;
 		total++;
-		message += `ID: ${user.id}\n
-			name: ${user.name}\n 
-            surname: ${user.surname}\n
-            username: ${username}\n
-            start_date: ${user.start_date}\n 
-            isblocked: ${user.isblocked}\n
-			language_code: ${user.language_code}\n 
-			is_bot: ${user.is_bot}\n\n`;
+		if (user.isblocked === "true") {
+			total_blocked++;
+		}
+		message += `ID: ${user.id}\n` +
+			`name: ${user.name}\n` +
+            `surname: ${user.surname}\n` +
+            `username: ${username}\n` +
+            `start_date: ${user.start_date}\n` +
+            `isblocked: ${user.isblocked}\n` +
+			`language_code: ${user.language_code}\n` +
+			`is_bot: ${user.is_bot}\n\n`;
 		if ((total % batchSize === 0) || (i === res.length - 1)) {
 			if (i === res.length - 1) {
-				message += `total: ${total}.`;
+				message += `total: ${total}.\ntotal blocked: ${total_blocked}.`;
 			}
 			await SendMessage(url, dest, message, pc_dest, s);
 			message = ""; 
