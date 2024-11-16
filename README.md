@@ -5,7 +5,7 @@ Inspired by https://t.me/killmilk_support_bot.
 
 
 ## How to deploy the bot completely free ([Cloudflare](https://www.cloudflare.com/) based)
-It can handle 100k requests for free per day (Cloudflare limits).
+It can handle 100k requests for free per day (Cloudflare limits). The setup only takes 10 minutes even though it seems endless.
 
 - Create a new bot on telegram with [@BotFather](https://telegram.me/BotFather). Save the api token for future use.
 - Create a Cloudflare account and click add a website or application.
