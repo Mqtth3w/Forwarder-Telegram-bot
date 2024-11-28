@@ -492,6 +492,17 @@ export default {
 						let msg = silent_dest ? `Destination sound notifications are disabled.` : `Destination sound notifications are enabled.`;
 						await SendMessage(url, env.DESTINATION, msg, pc_dest, silent_dest);
 					}
+					else if (command === "/state") {
+						let message = `Current state configuration\n\n` +
+							`Service suspended: ${suspended}\n` +
+							`Custom suspend phrase: ${custom_susp}\n` +
+							`Pinned user: ${pinned_usr}\n` +
+							`Protect content (user side): ${pc_user}\n` +
+							`Protect content (dest side): ${pc_dest}\n` +
+							`User sound notifications enabled: ${silent_user}\n` +
+							`Dest sound notifications enabled: ${silent_dest}`;
+						await SendMessage(url, env.DESTINATION, message, pc_dest, silent_dest, pinned_usr);
+					}
 					else if (payload.message.entities && payload.message.entities.length > 0 && payload.message.entities[0].type === "bot_command") { 
 						await SendMessage(url, env.DESTINATION, `Hey chief! Invalid command, check the User guide at ${user_guide}.`, pc_dest, silent_dest);
 					}
