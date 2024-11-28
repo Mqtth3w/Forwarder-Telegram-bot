@@ -499,8 +499,8 @@ export default {
 							`Pinned user: ${pinned_usr}\n` +
 							`Protect content (user side): ${pc_user}\n` +
 							`Protect content (dest side): ${pc_dest}\n` +
-							`User sound notifications enabled: ${silent_user}\n` +
-							`Dest sound notifications enabled: ${silent_dest}`;
+							`User sound notifications disabled: ${silent_user}\n` +
+							`Dest sound notifications disabled: ${silent_dest}`;
 						await SendMessage(url, env.DESTINATION, message, pc_dest, silent_dest, pinned_usr);
 					}
 					else if (payload.message.entities && payload.message.entities.length > 0 && payload.message.entities[0].type === "bot_command") { 
