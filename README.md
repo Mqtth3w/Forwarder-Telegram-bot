@@ -66,6 +66,9 @@ https://t.me/Mqtth3w_support_bot
 - Get user geolocation (user permission needed).
 - Multiple pinned users.
 - Get user contact (user permission needed).
+- Update the user information in the db if the user change them.
+- Delete messages sent to the user.
+- Pin messages.
 
 # Light version
 This [tel_bot.js](./tel_bot.js) version doesn't have a database but you still be able to use almost all the functionalities by changing the state variables in the code.
