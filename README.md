@@ -60,7 +60,13 @@ https://t.me/Mqtth3w_support_bot
 - `/delete <User ID>` delete the user with the specified ID from the database.
 - `/broadcast <Your message>` broadcast the message to all the users in the DB. You must provide a message.
 - `/state` shows you the current state configuration, so service suspended, custom suspend phrase, pinned user (and their profile), protect content (user side), protect content (dest side), user sound notifications enabled, dest sound notifications enabled.
-  
+
+# To do
+- Get user device information.
+- Get user geolocation (user permission needed).
+- Multiple pinned users.
+- Get user contact (user permission needed).
+
 # Light version
 This [tel_bot.js](./tel_bot.js) version doesn't have a database but you still be able to use almost all the functionalities by changing the state variables in the code.
 
