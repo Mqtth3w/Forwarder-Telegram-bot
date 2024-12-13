@@ -313,7 +313,7 @@ export default {
 		}
 		if (request.method === "POST") {
 			const payload = await request.json();
-			if ('message' in payload) {
+			if (payload.message) {
 				let url = `https://api.telegram.org/bot${env.API_KEY}/`;
 				await getCurrentState(url, env.db, env.DESTINATION, pc_dest, silent_dest);
 				let chatId = payload.message.chat.id.toString();
