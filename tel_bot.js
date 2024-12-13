@@ -199,7 +199,7 @@ async function handleRequest(request) {
     }
 	if (request.method === "POST") {
 		const payload = await request.json();
-		if ('message' in payload) {
+		if (payload.message) {
 			const chatId = payload.message.chat.id.toString();
 			const text = payload.message.text || "";
 			if (chatId === DESTINATION) {
