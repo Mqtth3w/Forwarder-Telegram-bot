@@ -5,6 +5,9 @@ This bot allow you to be contacted without giving your Telegram account. In part
 ## How to deploy the bot completely free ([Cloudflare](https://www.cloudflare.com/) based)
 It can handle 100k requests for free per day (Cloudflare limits). The deployment only takes 10 minutes even though it seems endless.
 
+<details closed>
+<summary><b>Click here to expand the deployment. </b></summary>
+
 - Create a new bot on telegram with [@BotFather](https://telegram.me/BotFather). Save the api token for future use.
 - Create a Cloudflare account and click add a website or application.
 - Go to workers & pages then create a new worker so deploy it.
@@ -28,6 +31,8 @@ It can handle 100k requests for free per day (Cloudflare limits). The deployment
   ```
   https://api.telegram.org/bot<replace with your bot api token>/deleteWebhook
   ```
+
+</details>
 
 ### Try it!
 https://t.me/Mqtth3w_support_bot
