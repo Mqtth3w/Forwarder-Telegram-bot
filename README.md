@@ -1,5 +1,5 @@
 # Bot to be contacted without giving your Telegram account
-This bot allow you to be contacted without giving your Telegram account. In particular, Anyone who contacts you via this bot only has the information indicated in the bot or associated with it. Instead, you will know "everything" about who contacts you: ID, name, username, profile, language, if it is a bot...
+This bot allow you to be contacted without giving your Telegram account. In particular, Anyone who contacts you via this bot only has the information indicated in the bot or associated with it. Instead, you will know "everything" about who contacts you: ID, name, username, profile, language, if it is a bot. You can also interact with your users through lots of commands.
 
 
 ## How to deploy the bot completely free ([Cloudflare](https://www.cloudflare.com/) based)
