@@ -1,5 +1,5 @@
 
-# DB setup ⚙️
+# ⚙️ DB setup 
 - Go to workers & pages then to D1 SQL databases.
 - Create a new database. the name doesn't really matter. Instead could be useful to set a location near to "you".
 - Select the database and create a new table called "users" with the following columns and types:
@@ -21,12 +21,15 @@
     - silent_dest: text.
 - With the worker selected, go to settings and then bindings. Click add, click D1 database, choose the variable name "db" and select your database by the name you set previously. Then deploy it.
 
-# DB info ℹ️
+# ℹ️ DB info 
 It uses the Cloudflare D1 service. The database has a free plan but it have some [limitations](https://developers.cloudflare.com/d1/platform/limits/) as the free worker. If you aren't famous the limits are very high, so no worries. Sometimes this version can be slow (we are talking about milliseconds) because Cloudflare gives a limited amout of resources especially in db writing operations so the light version is recommended if you need a really responsive bot.
 
-# Support 🫶🏼
+# 🫶🏼 Support 
 Donate to support my projects. 
 - Crypto & others: Use the command `/support` in the [bot](https://t.me/Mqtth3w_support_bot).
 - [Sponsor](https://github.com/sponsors/Mqtth3w).
 - [Buy me a pizza](https://buymeacoffee.com/mqtth3w).
 - [liberapay](https://liberapay.com/mqtth3w).
+
+# ⭐ Give a Star!
+Support this research by giving it a star. Thanks!
