@@ -41,7 +41,7 @@ It can handle 100k requests for free per day (Cloudflare limits).
 https://t.me/Mqtth3w_support_bot
 
 
-# User guide
+# User guide 🆘
 ### Base user
 - Start the bot.
 - Send a message to the bot to send a message to DESTINATION.
