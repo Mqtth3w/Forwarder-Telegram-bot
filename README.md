@@ -95,4 +95,4 @@ Donate to support my projects.
 - [liberapay](https://liberapay.com/mqtth3w).
 
 # ⭐ Give a Star!
-Support this research by giving it a star. Thanks!
+Support this project by giving it a star. Thanks!
