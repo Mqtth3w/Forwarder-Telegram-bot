@@ -1,13 +1,16 @@
-# Bot to be contacted without giving your Telegram account
+# Bot to be contacted without giving your Telegram account [![Awesome](https://cdn.jsdelivr.net/gh/sindresorhus/awesome@d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)](https://github.com/sindresorhus/awesome#readme)
+
 This bot allow you to be contacted without giving your Telegram account. In particular, Anyone who contacts you via this bot only has the information indicated in the bot or associated with it. Instead, you will know "everything" about who contacts you: ID, name, username, profile, language, if it is a bot. You can also interact with your users through lots of commands.
 
 
 ## How to deploy the bot completely free ([Cloudflare](https://www.cloudflare.com/) based)
-It can handle 100k requests for free per day (Cloudflare limits). The deployment only takes 10 minutes even though it seems endless.
+It can handle 100k requests for free per day (Cloudflare limits).
 
 <details closed>
 <summary><b>Click here to expand the deployment. </b></summary>
-
+  
+ The deployment only takes 10 minutes even though it seems endless.
+  
 - Create a new bot on telegram with [@BotFather](https://telegram.me/BotFather). Save the api token for future use.
 - Create a Cloudflare account and click add a website or application.
 - Go to workers & pages then create a new worker so deploy it.
@@ -34,7 +37,7 @@ It can handle 100k requests for free per day (Cloudflare limits). The deployment
 
 </details>
 
-### Try it!
+### Try it! 🤌
 https://t.me/Mqtth3w_support_bot
 
 
@@ -43,7 +46,7 @@ https://t.me/Mqtth3w_support_bot
 - Start the bot.
 - Send a message to the bot to send a message to DESTINATION.
 - Send `/help` to see what the bot do: "This bot forward all messages you send to &lt;your nick&gt;. Through this bot, &lt;your nick&gt; can reply you.".
-### DESTINATION
+### DESTINATION 😎
 - Start the bot.
 - To reply do reply at the message with the ID of the sender. You can reply with text, photo, video, audio, voice, animation, sticker, contact, document and location.
 - `/block <Sender ID>` blocks the sender. <!-- &lt;replace with senderID&gt; -->
@@ -64,7 +67,7 @@ https://t.me/Mqtth3w_support_bot
 - `/broadcast <Your message>` broadcast the message to all the users in the DB. You must provide a message.
 - `/state` shows you the current state configuration, so service suspended, custom suspend phrase, pinned user (and their profile), protect content (user side), protect content (dest side), user sound notifications enabled, dest sound notifications enabled.
 
-# To do
+# To do 🛠️
 - Get user device information.
 - Get user geolocation (user permission needed).
 - Multiple pinned users.
@@ -73,18 +76,18 @@ https://t.me/Mqtth3w_support_bot
 - Delete messages sent to the user.
 - Pin messages.
 
-# Light version
+# Light version 🤏
 This [tel_bot.js](./tel_bot.js) version doesn't have a database but you still be able to use almost all the functionalities by changing the state variables in the code.
 
-# FAQ
+# FAQ 😕
 - Why the sender ID? Because it is an unique identifier that never changes for the user (until deletion). It is like a primary key.
 - Why to use webhook? Webhook is more efficient and scalable than polling.
 - How can I change the "DESTINATION"? Go on your Cloudflare account, select the worker, go to variables, delete the variable "DESTINATION" so create it again with the new ID (Encrypt it). Looks like that now is possible to edit it by "Rotate" so without recreate it. If you change your Telegram account, you should also transefer the bot ownership to the new account through [@BotFather](https://telegram.me/BotFather).
 
-# Discussion
+# Discussion 💭
 For any comment or to request a new feature you can either use the [Discussions](https://github.com/Mqtth3w/Forwarder-Telegram-bot/discussions) section or contact me through the [bot](https://t.me/Mqtth3w_support_bot).
 
-# Support
+# Support 🫶🏼
 Donate to support my projects. 
 - Crypto & others: Use the command `/support` in the [bot](https://t.me/Mqtth3w_support_bot).
 - [Sponsor](https://github.com/sponsors/Mqtth3w).
