@@ -21,7 +21,7 @@ let url = `https://api.telegram.org/bot${API_KEY}/`;
 const user_guide = "https://github.com/Mqtth3w/Forwarder-Telegram-bot/tree/main#user-guide";
 const faq = "https://github.com/Mqtth3w/Forwarder-Telegram-bot/tree/main#faq";
 // State "Const" 
-const blocked = ["-1"]
+const blocked = ["-1"];
 const suspended = false;
 const custom_susp = "";
 const pinned_usr = ""; 
@@ -41,7 +41,7 @@ const silent_dest = false;
  * @param {number|string} [prf] - The chat ID for the profile, used to generate an inline keyboard with a link to the user profile.
  * @returns {Promise<void>} - This function does not return a value.
  */
-async function SendMessage(cId, txt, pc = true, s = false, prf) {
+async function sendMessage(cId, txt, pc = true, s = false, prf) {
 	let payload = {
 		chat_id: cId,
 		text: txt,
@@ -68,16 +68,37 @@ async function SendMessage(cId, txt, pc = true, s = false, prf) {
 };
 
 /**
+ * Delete a text message by ID, sent via a Telegram bot.
+ *
+ * @param {number|string} cId - The chat ID of the user target chat to delete the message.
+ * @param {number} mId - The text message ID to be deleted.
+ * @returns {Promise<void>} - This function does not return a value.
+ */
+async function deleteMessage(cId, mId) {
+	let payload = {
+		chat_id: cId,
+		message_id: mId,
+	};
+	await fetch(url + 'deleteMessage', {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(payload),
+	}); 
+};
+
+/**
  * Forwards any type of message to a specified user via a Telegram bot.
  *
  * @param {number|string} cId - The chat ID of the user to send the message to.
  * @param {number|string} fcId - The chat ID of the user who sent the message to be forwarded.
- * @param {number|string} mId - The message ID of the message to be forwarded.
+ * @param {number} mId - The message ID of the message to be forwarded.
  * @param {boolean} [pc=true] - Whether to protect the content of the message. Defaults to true.
  * @param {boolean} [s=false] - If true, disables notification for the message. Defaults to false.
  * @returns {Promise<void>} - This function does not return a value.
  */
-async function ForwardMessage(cId, fcId, mId, pc = true, s = false) {
+async function forwardMessage(cId, fcId, mId, pc = true, s = false) {
 	await fetch(url + 'forwardMessage', {
 		method: "POST",
 		headers: {
@@ -106,12 +127,12 @@ async function ForwardMessage(cId, fcId, mId, pc = true, s = false) {
  * @param {boolean} [s_d=false] - If true, disables notification for the status message (dest side). Defaults to false.
  * @returns {Promise<void>} - This function does not return a value.
  */
-async function SendMedia(msg, dest, chatId, pc = true, pc_d = false, s = false, s_d = false) {
+async function sendMedia(msg, dest, cId, pc = true, pc_d = false, s = false, s_d = false) {
 	let method = "";
 	let method2 = "";
 	let methodr = "";
 	let fileId = "";
-	let payload = { chat_id: chatId, protect_content: pc, disable_notification: s };
+	let payload = { chat_id: cId, protect_content: pc, disable_notification: s };
 	if (msg.photo) {
 		method = "sendPhoto";
 		method2 = "photo";
@@ -168,7 +189,7 @@ async function SendMedia(msg, dest, chatId, pc = true, pc_d = false, s = false, 
         if (msg.contact.last_name) payload.last_name = msg.contact.last_name;
     }
 	else {
-		await SendMessage(dest, `Unexpected data, reply not sent.`, pc_d, s_d);
+		await sendMessage(dest, `Unexpected data, reply not sent.`, pc_d, s_d);
 		return;
 	}
 
@@ -183,7 +204,7 @@ async function SendMedia(msg, dest, chatId, pc = true, pc_d = false, s = false, 
 		},
 		body: JSON.stringify(payload),
 	});
-	await SendMessage(dest, `${methodr} sent to ${chatId}.`, pc_d, s_d, chatId);
+	await sendMessage(dest, `${methodr} sent to ${cId}.`, pc_d, s_d, cId);
 };
 
 /**
@@ -199,8 +220,9 @@ async function handleRequest(request) {
     }
 	if (request.method === "POST") {
 		const payload = await request.json();
-		if (payload.message) {
+		if ('message' in payload) {
 			const chatId = payload.message.chat.id.toString();
+			const messageId = payload.message.message_id;
 			const text = payload.message.text || "";
 			if (chatId === DESTINATION) {
 				let command = text.split(" ")[0];
@@ -210,95 +232,106 @@ async function handleRequest(request) {
 					let infoArr = infoSender.split(" ");
 					const senderId = infoArr[0];
 					if (senderId && Number(senderId) > 0) {
-						if (text) {
-							await SendMessage(senderId, text, pc_user, silent_user);
-							await SendMessage(DESTINATION, `Reply sent to ${senderId}.`, pc_dest, silent_dest, senderId);
-						}
-						else {
-							await SendMedia(payload.message, DESTINATION, senderId, pc_user, pc_dest, silent_dest);
+						if (command === "/del") {
+							let infoDel = text.split(" ");
+							if (infoDel[1] && Number(infoDel[1]) > 0) {
+								await deleteMessage(senderId, Number(infoDel[1]));
+								await sendMessage( DESTINATION, `Message ${infoDel[1]} deleted if present from chat ${senderId}.`, pc_dest, silent_dest, senderId);
+							}
+							else {
+								await sendMessage( DESTINATION, "Invalid User ID.", pc_dest, silent_dest);
+							}
+						} else {
+							if (text) {
+								await sendMessage(senderId, text, pc_user, silent_user);
+								await sendMessage(DESTINATION, `Reply sent to ${senderId}.`, pc_dest, silent_dest, senderId);
+							}
+							else {
+								await sendMedia(payload.message, DESTINATION, senderId, pc_user, pc_dest, silent_user, silent_dest);
+							}
 						}
 					}
 					else {
-						await SendMessage(DESTINATION, "Reply only to messages starting with an user ID.", pc_dest, silent_dest);
+						await sendMessage(DESTINATION, "Reply only to messages starting with an user ID.", pc_dest, silent_dest);
 					}
 				}
 				else if (command === "/start") {
-					await SendMessage(DESTINATION, "Hello, chief!", pc_dest, silent_dest);
+					await sendMessage(DESTINATION, "Hello, chief!", pc_dest, silent_dest);
 				}
 				else if (command === "/block") {
-					await SendMessage(DESTINATION, `Edit it from the code because the worker is stateless and 
+					await sendMessage(DESTINATION, `Edit it from the code because the worker is stateless and 
 						after some time it will clear all the state variable edits. Otherwise you can use the DB version.`, pc_dest, silent_dest);
 				}
 				else if(command === "/unblock") {
-					await SendMessage(DESTINATION, `Edit it from the code because the worker is stateless and 
+					await sendMessage(DESTINATION, `Edit it from the code because the worker is stateless and 
 						after some time it will clear all the state variable edits. Otherwise you can use the DB version.`, pc_dest, silent_dest);
 				}
 				else if (command === "/suspend") {
-					await SendMessage(DESTINATION, `Edit it from the code because the worker is stateless and 
+					await sendMessage(DESTINATION, `Edit it from the code because the worker is stateless and 
 						after some time it will clear all the state variable edits. Otherwise you can use the DB version.`, pc_dest, silent_dest);
 				}
 				else if (command === "/unsuspend") {
-					await SendMessage(DESTINATION, `Edit it from the code because the worker is stateless and 
+					await sendMessage(DESTINATION, `Edit it from the code because the worker is stateless and 
 						after some time it will clear all the state variable edits. Otherwise you can use the DB version.`, pc_dest, silent_dest);
 				}
 				else if (command === "/help") {
-					await SendMessage(DESTINATION, `User guide: ${user_guide}. FAQ: ${faq}.`, pc_dest, silent_dest);
+					await sendMessage(DESTINATION, `User guide: ${user_guide}. FAQ: ${faq}.`, pc_dest, silent_dest);
 				}
 				else if (command === "/blocked") {
 					let blocked_str = 'blocked = ["' + blocked.join('", "') + '"]';
-					await SendMessage(DESTINATION, blocked_str, pc_dest, silent_dest);
+					await sendMessage(DESTINATION, blocked_str, pc_dest, silent_dest);
 				}
 				else if (command === "/pin") {
-					await SendMessage(DESTINATION, `Edit it from the code because the worker is stateless and 
+					await sendMessage(DESTINATION, `Edit it from the code because the worker is stateless and 
 						after some time it will clear all the state variable edits. Otherwise you can use the DB version.`, pc_dest, silent_dest);
 				}
 				else if (command === "/unpin") {
-					await SendMessage(DESTINATION, `Edit it from the code because the worker is stateless and 
+					await sendMessage(DESTINATION, `Edit it from the code because the worker is stateless and 
 						after some time it will clear all the state variable edits. Otherwise you can use the DB version.`, pc_dest, silent_dest);
 				}
 				else if (command === "/show") {
 					let infoBlock = text.split(" ");
 					if (infoBlock[1] && Number(infoBlock[1]) > 0) {
-						await SendMessage(DESTINATION, `User ${infoBlock[1]}.`, pc_dest, silent_dest, infoBlock[1]);
+						await sendMessage(DESTINATION, `User ${infoBlock[1]}.`, pc_dest, silent_dest, infoBlock[1]);
 					}
 					else {
-						await SendMessage(DESTINATION, "Invalid User ID.", pc_dest, silent_dest);
+						await sendMessage(DESTINATION, "Invalid User ID.", pc_dest, silent_dest);
 					}
 				}
 				else if (command === "/pcuser") {
-					await SendMessage(DESTINATION, `Edit it from the code because the worker is stateless and 
+					await sendMessage(DESTINATION, `Edit it from the code because the worker is stateless and 
 						after some time it will clear all the state variable edits. Otherwise you can use the DB version.`, pc_dest, silent_dest);
 				}
 				else if (command === "/pcdest") {
-					await SendMessage(DESTINATION, `Edit it from the code because the worker is stateless and 
+					await sendMessage(DESTINATION, `Edit it from the code because the worker is stateless and 
 						after some time it will clear all the state variable edits. Otherwise you can use the DB version.`, pc_dest, silent_dest);
 				}
 				else if (command === "/silentuser") {
-					await SendMessage(DESTINATION, `Edit it from the code because the worker is stateless and 
+					await sendMessage(DESTINATION, `Edit it from the code because the worker is stateless and 
 						after some time it will clear all the state variable edits. Otherwise you can use the DB version.`, pc_dest, silent_dest);
 				}
 				else if (command === "/silentdest") {
-					await SendMessage(DESTINATION, `Edit it from the code because the worker is stateless and 
+					await sendMessage(DESTINATION, `Edit it from the code because the worker is stateless and 
 						after some time it will clear all the state variable edits. Otherwise you can use the DB version.`, pc_dest, silent_dest);
 				}
 				else if (payload.message.entities && payload.message.entities.length > 0 && payload.message.entities[0].type === "bot_command") { 
-					await SendMessage(DESTINATION, `Hey chief! Invalid command, check the User guide at ${user_guide}.`, pc_dest, silent_dest);
+					await sendMessage(DESTINATION, `Hey chief! Invalid command, check the User guide at ${user_guide}.`, pc_dest, silent_dest);
 				}
 				else if (pinned_usr) {
 					if (text) {
-						await SendMessage(pinned_usr, text, pc_user, silent_user);
-						await SendMessage(DESTINATION, `Reply sent to ${pinned_usr}`, pc_dest, silent_dest, pinned_usr);
+						await sendMessage(pinned_usr, text, pc_user, silent_user);
+						await sendMessage(DESTINATION, `Reply sent to ${pinned_usr}`, pc_dest, silent_dest, pinned_usr);
 					}
 					else {
-						await SendMedia(payload.message, DESTINATION, pinned_usr, pc_user, pc_dest, silent_user, silent_dest);
+						await sendMedia(payload.message, DESTINATION, pinned_usr, pc_user, pc_dest, silent_user, silent_dest);
 					}
 				}
 				else { 
-					await SendMessage(DESTINATION, `Hey chief! Invalid command, check the User guide at ${user_guide}.`, pc_dest, silent_dest);
+					await sendMessage(DESTINATION, `Hey chief! Invalid command, check the User guide at ${user_guide}.`, pc_dest, silent_dest);
 				} 
 			}
 			else if (!blocked.includes(chatId) && suspended) {
-				await SendMessage(chatId, `${susp_info} {custom_susp}`);
+				await sendMessage(chatId, `${susp_info} {custom_susp}`);
 			}
 			else if (!blocked.includes(chatId)) {
 				const first_name = payload.message.from.first_name;
@@ -309,19 +342,19 @@ async function handleRequest(request) {
 					user = user + " " + last_name;
 				}
 				let info = chatId + "  " + user;
-				let extraInfo = `language_code=${payload.message.from.language_code} is_bot=${payload.message.from.is_bot}`;
+				let extraInfo = `language_code=${payload.message.from.language_code} is_bot=${payload.message.from.is_bot} prev_msg_id=${messageId}`;
 				if (text === "/start") {
-					await SendMessage(chatId, `Hello, ${user}!`, pc_user, silent_user);
-					await SendMessage(DESTINATION, username ? `${info} @${username} ${extraInfo} started the bot.`	: `${info} ${extraInfo} started the bot.`, pc_dest, silent_dest, chatId);
+					await sendMessage(chatId, `Hello, ${user}!`, pc_user, silent_user);
+					await sendMessage(DESTINATION, username ? `${info} @${username} ${extraInfo} started the bot.`	: `${info} ${extraInfo} started the bot.`, pc_dest, silent_dest, chatId);
 				}
 				else if (text === "/help") {
-					await SendMessage(chatId, `This bot forward all messages you send to ${nick}. Through this bot, ${nick} can reply you.`, pc_user, silent_user);
-					await SendMessage(DESTINATION, username ? `${info} @${username} ${extraInfo} typed /help.` : `${info} ${extraInfo} typed /help.`, pc_dest, silent_dest, chatId);
+					await sendMessage(chatId, `This bot forward all messages you send to ${nick}. Through this bot, ${nick} can reply you.`, pc_user, silent_user);
+					await sendMessage(DESTINATION, username ? `${info} @${username} ${extraInfo} typed /help.` : `${info} ${extraInfo} typed /help.`, pc_dest, silent_dest, chatId);
 				}
 				else {
-					await SendMessage(chatId, `Message sent to ${nick}.`, pc_user, silent_user);
-					await ForwardMessage(DESTINATION, chatId, payload.message.message_id, pc_dest, silent_dest);
-					await SendMessage(DESTINATION, username ? `${info} @${username} ${extraInfo}.` : `${info} ${extraInfo}.`, pc_dest, silent_dest, chatId);
+					await sendMessage(chatId, `Message sent to ${nick}.`, pc_user, silent_user);
+					await forwardMessage(DESTINATION, chatId, messageId, pc_dest, silent_dest);
+					await sendMessage(DESTINATION, username ? `${info} @${username} ${extraInfo}.` : `${info} ${extraInfo}.`, pc_dest, silent_dest, chatId);
 				}
 			}
 		}
