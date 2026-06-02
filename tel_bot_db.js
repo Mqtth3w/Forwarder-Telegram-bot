@@ -57,7 +57,7 @@ async function sendMessage(url, cId, txt, pc = true, s = false, prf) {
 };
 
 /**
- * Sends a text message to a specified user via a Telegram bot.
+ * Delete a text message by ID, sent via a Telegram bot.
  *
  * @param {string} url - The root URL for the Telegram bot API, e.g., `https://api.telegram.org/bot<token>/`.
  * @param {number|string} cId - The chat ID of the user target chat to delete the message.
