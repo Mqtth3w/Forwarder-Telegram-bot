@@ -356,7 +356,7 @@ export default {
 									await sendMessage(url, env.DESTINATION, `Message ${infoDel[1]} deleted if present from chat ${senderId}.`, pc_dest, silent_dest, senderId);
 								}
 								else {
-									await sendMessage(url, env.DESTINATION, "Invalid User ID.", pc_dest, silent_dest);
+									await sendMessage(url, env.DESTINATION, "Invalid User ID. Then, it is not possible to delete the message.", pc_dest, silent_dest);
 								}
 							} else {
 								if (text) {
@@ -368,8 +368,18 @@ export default {
 								}
 							}
 						}
+						else if (command === "/del") {
+							let infoDel = text.split(" ");
+							if (infoDel[1] && Number(infoDel[1]) > 0) {
+								await deleteMessage(url, Number(infoDel[1]), payload.message.reply_to_message.message_id + 1);
+								await sendMessage(url, env.DESTINATION, `Message ${payload.message.reply_to_message.message_id + 1} deleted if present from chat ${infoDel[1]}.`, pc_dest, silent_dest, senderId);
+							}
+							else {
+								await sendMessage(url, env.DESTINATION, "Invalid User ID. Then, it is not possible to delete the message.", pc_dest, silent_dest);
+							}
+						}
 						else {
-							await sendMessage(url, env.DESTINATION, "Reply only to messages starting with an user ID.", pc_dest, silent_dest);
+							await sendMessage(url, env.DESTINATION, "To reply, reply only to messages starting with an user ID.", pc_dest, silent_dest);
 						}
 					}
 					else if (command === "/start") {
